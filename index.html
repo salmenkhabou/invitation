@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Rihem & Mohamed - Invitation de Mariage</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Invitation numérique pour le mariage de Rihem & Mohamed - Le 11 Juillet 2026 à l'Hôtel Aurora Sfax, Tunisie."/>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpg" href="logo.jpg"/>
+
+  <!-- Google Fonts: Pinyon Script (Luxury Calligraphy), Cinzel (Roman Serif), Montserrat (Modern Sans-Serif) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link crossorigin href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600;700&family=Pinyon+Script&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
+  
+  <!-- Material Symbols for elegant UI icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  
+  <!-- Main Stylesheet -->
+  <link href="style.css" rel="stylesheet"/>
+</head>
+<body>
+
+  <!-- Fullscreen Particle Canvas Overlay -->
+  <canvas id="canvas-particles"></canvas>
+
+  <!-- Ambient Shadow Overlay for branch shadows effect -->
+  <div class="branch-shadow"></div>
+
+  <!-- Interactive 3D Envelope Wrapper -->
+  <div id="envelope-wrapper" class="envelope-wrapper">
+    <div class="envelope-intro-text">
+      <span class="material-symbols-outlined bounce-icon">mail</span>
+      <h2>Notre Invitation</h2>
+      <p>NOUS NOUS MARIONS !</p>
+    </div>
+
+    <!-- 3D Envelope Container inside phone mockup frame -->
+    <div class="envelope-frame">
+      <div id="envelope" class="envelope">
+        <!-- Inside lining -->
+        <div class="envelope-inner"></div>
+        
+        <!-- Flaps -->
+        <div class="envelope-left"></div>
+        <div class="envelope-right"></div>
+        <div class="envelope-bottom"></div>
+        <div class="envelope-top-flap"></div>
+        
+        <!-- Wax Seal -->
+        <button id="wax-seal-btn" class="wax-seal" aria-label="Ouvrir l'enveloppe">
+          <img src="logo.jpg" alt="Sceau RM" class="wax-seal-img"/>
+        </button>
+
+        <!-- Invitation Card (slides out upwards) -->
+        <div class="envelope-card">
+          <div class="card-inner">
+            <h3 class="card-title-script">Rihem & Mohamed</h3>
+            <p class="card-sub">SE MARIENT</p>
+            <div class="card-divider"></div>
+            <p class="card-italic">Réservez la Date</p>
+            <p class="card-date">11 JUILLET</p>
+            <p class="card-location">AURORA • SFAX, TUNISIE</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="envelope-instruction">
+      Cliquez sur le sceau pour ouvrir l'enveloppe
+    </div>
+  </div>
+
+  <!-- Floating Audio Player Button -->
+  <div class="audio-control-fixed">
+    <button id="music-toggle" class="music-toggle-btn" aria-label="Activer ou désactiver la musique de fond">
+      <span id="music-icon" class="material-symbols-outlined">music_note</span>
+    </button>
+    <audio id="bg-music" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3"></audio>
+  </div>
+
+  <!-- Main Website Content (Visible after envelope opens) -->
+  <main id="main-content" class="main-content-layout">
+    
+    <!-- Hero / Intro Card -->
+    <header class="card-hero reveal-card">
+      <div class="hero-monogram-container">
+        <img src="logo.jpg" alt="Monogramme RM" class="hero-monogram"/>
+      </div>
+      <p class="hero-mini-tag">NOTRE HISTOIRE COMMENCE ICI</p>
+      <h1 class="couple-names">Rihem & Mohamed</h1>
+      <p class="wedding-quote">
+        "Sous le regard bienveillant de nos familles, nous sommes heureux de vous inviter à célébrer notre union et le début de notre vie à deux."
+      </p>
+      <div class="luxury-divider">
+        <span class="material-symbols-outlined">favorite</span>
+      </div>
+      <p class="hero-date">SAMEDI 11 JUILLET 2026</p>
+      <p class="hero-venue">HÔTEL AURORA SFAX</p>
+    </header>
+
+    <!-- Content Bento Collage Grid -->
+    <div class="collage-grid">
+
+      <!-- Card 1: Blessings & Families -->
+      <section class="card-premium card-light reveal-card col-span-2">
+        <span class="material-symbols-outlined section-icon">diversity_3</span>
+        <h2 class="section-title">Avec la Bénédiction de Nos Familles</h2>
+        <div class="blessing-columns">
+          <div class="blessing-column">
+            <h3>Famille de Rihem</h3>
+            <p class="parent-placeholder">Bénédiction & Bonheur</p>
+          </div>
+          <div class="blessing-column-divider"></div>
+          <div class="blessing-column">
+            <h3>Famille de Mohamed</h3>
+            <p class="parent-placeholder">Bénédiction & Prospérité</p>
+          </div>
+        </div>
+        <p class="blessing-footer">
+          Ont l'honneur de vous convier à la célébration de leur mariage.
+        </p>
+      </section>
+
+      <!-- Card: Interactive Grid Envelope (Save the Date) -->
+      <section class="card-premium card-light card-envelope-interactive reveal-card">
+        <span class="material-symbols-outlined section-icon">drafts</span>
+        <h2 class="section-title">Save the Date</h2>
+        <p class="section-subtitle">CLIQUEZ SUR LE SCEAU</p>
+        
+        <div id="grid-envelope" class="grid-envelope">
+          <!-- Lining -->
+          <div class="grid-envelope-inner"></div>
+          
+          <!-- Flaps -->
+          <div class="grid-envelope-left"></div>
+          <div class="grid-envelope-right"></div>
+          <div class="grid-envelope-bottom"></div>
+          <div class="grid-envelope-top-flap"></div>
+          
+          <!-- Wax Seal -->
+          <button id="grid-wax-seal-btn" class="grid-wax-seal" type="button" aria-label="Ouvrir le Save the Date">
+            <img src="logo.jpg" alt="Sceau RM" class="grid-wax-seal-img"/>
+          </button>
+          
+          <!-- Slide Out Card -->
+          <div class="grid-envelope-card">
+            <div class="grid-card-inner">
+              <div class="grid-card-photo" style="background-image: url('couple.jpg');"></div>
+              <div class="grid-card-details">
+                <p class="grid-card-tag">SAVE THE DATE</p>
+                <h4 class="grid-card-names">Rihem & Mohamed</h4>
+                <p class="grid-card-date">11.07</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Card 2: Date & Ceremony details -->
+      <section class="card-premium card-light reveal-card">
+        <span class="material-symbols-outlined section-icon">schedule</span>
+        <h2 class="section-title">Cérémonie & Réception</h2>
+        <p class="section-subtitle">OÙ & QUAND</p>
+        <div class="details-body">
+          <p class="detail-highlight">Samedi 11 Juillet</p>
+          <p class="detail-sub">à 19h00</p>
+          <p class="detail-desc">Hôtel Aurora Sfax, Tunisie</p>
+        </div>
+        <button id="open-map-btn" class="btn-luxury btn-gold-outline">
+          <span class="material-symbols-outlined">map</span> Voir l'Emplacement
+        </button>
+      </section>
+
+      <!-- Card 4: Live Countdown (Dark Premium Theme) -->
+      <section class="card-premium card-dark reveal-card col-span-2">
+        <span class="material-symbols-outlined section-icon">hourglass_empty</span>
+        <h2 class="section-title text-gold">Compte à Rebours</h2>
+        <p class="section-subtitle text-gold-light">JUSQU'AU GRAND MOMENT</p>
+        <div class="countdown-grid">
+          <div class="countdown-item">
+            <span id="days" class="countdown-num">00</span>
+            <span class="countdown-label">Jours</span>
+          </div>
+          <div class="countdown-divider"></div>
+          <div class="countdown-item">
+            <span id="hours" class="countdown-num">00</span>
+            <span class="countdown-label">Heures</span>
+          </div>
+          <div class="countdown-divider"></div>
+          <div class="countdown-item">
+            <span id="minutes" class="countdown-num">00</span>
+            <span class="countdown-label">Minutes</span>
+          </div>
+          <div class="countdown-divider"></div>
+          <div class="countdown-item">
+            <span id="seconds" class="countdown-num">00</span>
+            <span class="countdown-label">Secondes</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Card 7: Main RSVP Submission (Dark Premium, Full Width) -->
+      <section id="rsvp-section" class="card-premium card-dark reveal-card col-span-2">
+        <span class="material-symbols-outlined section-icon text-gold">celebration</span>
+        <h2 class="section-title text-gold">Confirmation de Présence</h2>
+        <p class="section-subtitle text-gold-light">CONFIRMATION DE L'ASSISTANCE</p>
+        <p class="rsvp-intro text-gray-300">
+          Pour nous aider à organiser au mieux cette journée magique, nous vous prions de bien vouloir confirmer votre présence avant le <strong>15 Juin</strong>.
+        </p>
+        <div class="rsvp-action-container">
+          <button id="open-rsvp-btn" class="btn-luxury btn-gold btn-large">
+            <span class="material-symbols-outlined">how_to_reg</span> Confirmer Votre Présence
+          </button>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-layout">
+      <div class="footer-divider"></div>
+      <h3 class="footer-title">Rihem & Mohamed</h3>
+      <p class="footer-sub">Nous avons hâte de célébrer avec vous !</p>
+      <p class="copyright">© 2026 RIHEM & MOHAMED. TOUS DROITS RÉSERVÉS.</p>
+    </footer>
+
+  </main>
+
+  <!-- MAP MODAL -->
+  <div id="map-modal" class="modal-overlay">
+    <div class="modal-container">
+      <button class="modal-close" id="map-close-btn" aria-label="Fermer la carte">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+      <h3 class="modal-title">Emplacement du Mariage</h3>
+      <p class="modal-subtitle">Hôtel Aurora Sfax, Tunisie</p>
+      <div class="map-iframe-container">
+        <!-- Google Maps Embed for Aurora, Sfax (fallback coordinate Sfax center or general area) -->
+        <iframe 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3278.4312675971434!2d10.7423985!3d34.7447477!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x13002cb705cb8c4f%3A0xc3fcae1329bf336c!2sSfax%2C%20Tunisia!5e0!3m2!1sen!2s!4v1782229940120!5m2!1sen!2s" 
+          width="100%" 
+          height="100%" 
+          style="border:0;" 
+          allowfullscreen="" 
+          loading="lazy" 
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+      <a href="https://www.google.com/maps/search/?api=1&query=Hotel+Aurora+Sfax+Tunisia" target="_blank" class="btn-luxury btn-gold modal-map-btn">
+        <span class="material-symbols-outlined">navigation</span> Ouvrir dans Google Maps
+      </a>
+    </div>
+  </div>
+
+  <!-- RSVP MODAL (Guest Search & Confirmation Flow) -->
+  <div id="rsvp-modal" class="modal-overlay">
+    <div class="modal-container rsvp-modal-container">
+      <button class="modal-close" id="rsvp-close-btn" aria-label="Fermer le RSVP">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+      
+      <!-- STAGE 1: Guest Search -->
+      <div id="rsvp-stage-search" class="rsvp-stage">
+        <h3 class="modal-title">Trouver Votre Invitation</h3>
+        <p class="modal-subtitle">Entrez votre nom complet pour confirmer votre présence</p>
+        
+        <div class="luxury-form mt-4">
+          <div class="form-group">
+            <label for="guest-search-input">Nom Complet de l'Invité</label>
+            <input type="text" id="guest-search-input" placeholder="Ex: Salmen Khabou"/>
+          </div>
+          <button id="guest-search-btn" class="btn-luxury btn-gold w-full">
+            <span class="material-symbols-outlined">search</span> Rechercher
+          </button>
+        </div>
+        <div id="search-error-msg" class="search-error-box hidden"></div>
+        
+        <!-- Search Results List -->
+        <div id="search-results" class="search-results-list hidden">
+          <p class="results-heading">Cliquez sur votre nom ci-dessous :</p>
+          <div id="results-container" class="results-container"></div>
+        </div>
+      </div>
+
+      <!-- STAGE 2: RSVP Selection -->
+      <div id="rsvp-stage-confirm" class="rsvp-stage hidden">
+        <h3 class="modal-title">Confirmer Votre Présence</h3>
+        <p class="modal-subtitle" id="rsvp-guest-title-display">Invitation pour [Nom]</p>
+        
+        <form id="rsvp-confirm-form" class="luxury-form mt-4">
+          <!-- Max seats notice -->
+          <div class="seats-allowance-banner">
+            <span class="material-symbols-outlined">info</span>
+            <span id="rsvp-seats-limit-text">Votre invitation comprend un maximum de X personnes.</span>
+          </div>
+
+          <div class="form-group select-status-group">
+            <label>Serez-vous présent ?</label>
+            <div class="radio-card-options">
+              <label class="radio-card select-attending">
+                <input type="radio" name="rsvp-status" value="confirmed" checked required />
+                <span class="radio-card-btn">
+                  <span class="material-symbols-outlined">check_circle</span>
+                  <strong>Oui, présent</strong>
+                </span>
+              </label>
+              <label class="radio-card select-declining">
+                <input type="radio" name="rsvp-status" value="declined" required />
+                <span class="radio-card-btn">
+                  <span class="material-symbols-outlined">cancel</span>
+                  <strong>Non, absent</strong>
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group" id="confirmed-guests-group">
+            <label for="rsvp-confirmed-count">Nombre de Personnes Présentes</label>
+            <select id="rsvp-confirmed-count" class="form-select">
+              <!-- Dynamically populated up to maxGuests -->
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="rsvp-email">Adresse E-mail (facultatif)</label>
+            <input type="email" id="rsvp-email" placeholder="nom@domaine.com"/>
+          </div>
+
+          <div class="form-group">
+            <label for="rsvp-dietary">Régime Spécial / Allergies (facultatif)</label>
+            <textarea id="rsvp-dietary" rows="2" placeholder="Ex: Sans gluten, végétarien..."></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="rsvp-message">Un message pour les mariés (facultatif)</label>
+            <textarea id="rsvp-message" rows="3" placeholder="Félicitations, vœux..."></textarea>
+          </div>
+
+          <button type="submit" id="rsvp-submit-btn" class="btn-luxury btn-gold w-full">
+            <span class="material-symbols-outlined">send</span> Confirmer
+          </button>
+        </form>
+      </div>
+
+      <!-- STAGE 3: RSVP Success -->
+      <div id="rsvp-stage-success" class="rsvp-stage hidden">
+        <div class="success-icon-container">
+          <span class="material-symbols-outlined success-check-icon">check_circle</span>
+        </div>
+        <h3 class="modal-title">Merci Beaucoup !</h3>
+        <p class="modal-subtitle" id="rsvp-success-thank-you">Votre réponse a bien été enregistrée.</p>
+        <div class="rsvp-summary-box">
+          <p><strong>Statut :</strong> <span id="summary-status-badge">Confirmé</span></p>
+          <p id="summary-guests-line"><strong>Nombre d'invités :</strong> <span id="summary-guests-count">X</span> personnes</p>
+        </div>
+        <button id="success-done-btn" class="btn-luxury btn-gold w-full mt-4">Fermer</button>
+      </div>
+      
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

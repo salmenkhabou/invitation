@@ -1,0 +1,1618 @@
+/* Design Variables & Token System */
+:root {
+  --cream-bg: #fdfaf5;       /* Warm linen off-white paper background */
+  --sand-bg: #f5f0e6;        /* Deeper warm sand tone */
+  --charcoal: #2c2824;       /* Deep warm bronze-charcoal text */
+  --gold: #c6a77b;           /* Champagne Gold */
+  --gold-dark: #997c55;      /* Deep Gold for text contrast */
+  --gold-light: #e5d4be;     /* Soft warm gold border tint */
+  --white-card: #ffffff;     /* Pure card white */
+  --dark-card: #3a423b;      /* Elegant deep olive green card */
+  --font-serif: 'Playfair Display', serif;
+  --font-sans: 'Montserrat', sans-serif;
+  --font-title: 'Cinzel', serif;
+  --font-script: 'Pinyon Script', cursive;
+}
+
+/* Reset and Base Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-serif);
+  background-image: url('background.png');
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  color: var(--charcoal);
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #fdfaf5;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--gold-dark);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold);
+}
+
+/* Dynamic Interactive Particle Canvas */
+#canvas-particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Leaf Shadow Play Overlay */
+.branch-shadow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: radial-gradient(circle at 10% 12%, rgba(61, 74, 62, 0.04) 0%, transparent 60%),
+              radial-gradient(circle at 90% 88%, rgba(61, 74, 62, 0.03) 0%, transparent 50%);
+  z-index: 1;
+}
+
+/* Typography Helper Classes */
+.font-script {
+  font-family: var(--font-script);
+}
+.font-title {
+  font-family: var(--font-title);
+}
+
+/* ==========================================================================
+   1. Interactive 3D Envelope Styles (Mobile Mockup Layout)
+   ========================================================================== */
+
+.envelope-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(rgba(223, 220, 212, 0.4), rgba(223, 220, 212, 0.4)), url('background.png');
+  background-size: cover;
+  background-position: center;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), visibility 1s ease;
+}
+
+.envelope-intro-text {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 0 1.5rem;
+}
+
+.bounce-icon {
+  font-size: 3rem !important;
+  color: var(--gold-dark);
+  animation: bounce-slow 2.5s infinite;
+}
+
+.envelope-intro-text h2 {
+  font-family: var(--font-title);
+  font-size: 1.8rem;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  color: var(--charcoal);
+  margin-top: 0.5rem;
+}
+
+.envelope-intro-text p {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  color: var(--gold-dark);
+  margin-top: 0.25rem;
+}
+
+/* Mobile viewport frame mockup */
+.envelope-frame {
+  position: relative;
+  width: 380px;
+  height: 520px;
+  background-color: var(--cream-bg);
+  box-shadow: 0 30px 60px rgba(44, 40, 36, 0.3), 0 0 0 10px #ffffff;
+  border-radius: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  perspective: 1200px;
+}
+
+@media (max-width: 420px) {
+  .envelope-frame {
+    width: 320px;
+    height: 440px;
+    border-radius: 30px;
+    box-shadow: 0 20px 40px rgba(44, 40, 36, 0.25), 0 0 0 6px #ffffff;
+  }
+}
+
+.envelope {
+  position: relative;
+  width: 280px;
+  height: 190px;
+  background-color: #ebdcb9; /* Envelope inner pocket liner */
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+  perspective: 1000px;
+  margin-top: 50px;
+}
+
+@media (max-width: 420px) {
+  .envelope {
+    width: 240px;
+    height: 160px;
+    margin-top: 40px;
+  }
+}
+
+/* Envelope Flaps */
+.envelope-inner {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-color: #dfcdab;
+  border-radius: 0 0 8px 8px;
+  z-index: 1;
+}
+
+.envelope-left {
+  position: absolute;
+  top: 0; left: 0; width: 0; height: 0;
+  border-left: 140px solid #eae1cd;
+  border-top: 95px solid transparent;
+  border-bottom: 95px solid #eae1cd;
+  z-index: 3;
+}
+
+.envelope-right {
+  position: absolute;
+  top: 0; right: 0; width: 0; height: 0;
+  border-right: 140px solid #eae1cd;
+  border-top: 95px solid transparent;
+  border-bottom: 95px solid #eae1cd;
+  z-index: 3;
+}
+
+.envelope-bottom {
+  position: absolute;
+  bottom: 0; left: 0; width: 0; height: 0;
+  border-left: 140px solid transparent;
+  border-right: 140px solid transparent;
+  border-bottom: 95px solid #dfd8c2;
+  z-index: 4;
+}
+
+.envelope-top-flap {
+  position: absolute;
+  top: 0; left: 0; width: 0; height: 0;
+  border-left: 140px solid transparent;
+  border-right: 140px solid transparent;
+  border-top: 95px solid #eae1cd;
+  transform-origin: top;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 5;
+}
+
+@media (max-width: 420px) {
+  .envelope-left {
+    border-left-width: 120px;
+    border-top-width: 80px;
+    border-bottom-width: 80px;
+  }
+  .envelope-right {
+    border-right-width: 120px;
+    border-top-width: 80px;
+    border-bottom-width: 80px;
+  }
+  .envelope-bottom {
+    border-left-width: 120px;
+    border-right-width: 120px;
+    border-bottom-width: 80px;
+  }
+  .envelope-top-flap {
+    border-left-width: 120px;
+    border-right-width: 120px;
+    border-top-width: 80px;
+  }
+}
+
+/* Wax Seal Monogram */
+.wax-seal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1.5px solid var(--gold);
+  box-shadow: 0 4px 15px rgba(50, 45, 41, 0.18);
+  cursor: pointer;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+.wax-seal:hover {
+  transform: translate(-50%, -50%) scale(1.12);
+  box-shadow: 0 6px 20px rgba(198, 167, 123, 0.35);
+}
+
+.wax-seal-img {
+  width: 90%;
+  height: 90%;
+  object-contain: fit;
+  border-radius: 50%;
+}
+
+.wax-seal::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -150%; width: 300%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.45), transparent);
+  transform: skewX(-20deg);
+  animation: shine-animation 3s infinite;
+}
+
+/* Card Inside Envelope (Landscape aspect ratio) */
+.envelope-card {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 260px;
+  height: 170px;
+  background-color: var(--white-card);
+  border: 1.5px solid var(--gold);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  z-index: 2;
+  transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 420px) {
+  .envelope-card {
+    top: 8px;
+    left: 8px;
+    width: 224px;
+    height: 144px;
+    padding: 8px;
+  }
+}
+
+.card-inner {
+  border: 1px solid rgba(198, 167, 123, 0.3);
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.card-title-script {
+  font-family: var(--font-script);
+  font-size: 1.8rem;
+  line-height: 1.1;
+  color: var(--gold-dark);
+}
+
+.card-sub {
+  font-family: var(--font-sans);
+  font-size: 0.45rem;
+  letter-spacing: 0.25em;
+  font-weight: 700;
+  color: var(--charcoal);
+  margin-top: 2px;
+}
+
+.card-divider {
+  width: 24px;
+  height: 1px;
+  background-color: var(--gold);
+  margin: 6px 0;
+}
+
+.card-italic {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.55rem;
+  color: #777;
+}
+
+.card-date {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--charcoal);
+  margin-top: 1px;
+}
+
+.card-location {
+  font-family: var(--font-sans);
+  font-size: 0.45rem;
+  letter-spacing: 0.15em;
+  color: #666;
+  margin-top: 1px;
+}
+
+/* Animation trigger states */
+.envelope.open .envelope-top-flap {
+  transform: rotateX(180deg);
+  z-index: 1; /* Pushed behind so card slides over it */
+}
+
+.envelope.open .envelope-card {
+  transform: translateY(-240px);
+  z-index: 5;
+}
+
+@media (max-width: 420px) {
+  .envelope.open .envelope-card {
+    transform: translateY(-200px);
+  }
+}
+
+.envelope-instruction {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: #555;
+  margin-top: 2rem;
+  animation: pulse-slow 2s infinite;
+  text-transform: uppercase;
+}
+
+/* ==========================================================================
+   2. Floating Music Control
+   ========================================================================== */
+
+.audio-control-fixed {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 999;
+}
+
+.music-toggle-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: var(--white-card);
+  border: 1px solid rgba(198, 167, 123, 0.35);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold-dark);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  outline: none;
+}
+
+.music-toggle-btn:hover {
+  border-color: var(--gold);
+  transform: scale(1.08);
+  box-shadow: 0 6px 20px rgba(198, 167, 123, 0.2);
+}
+
+.music-toggle-btn:active {
+  transform: scale(0.95);
+}
+
+/* Rotate Vinyl Animation when playing */
+.audio-playing {
+  animation: spin-vinyl 10s linear infinite;
+  border-color: var(--gold);
+  box-shadow: 0 0 15px rgba(198, 167, 123, 0.3);
+}
+
+/* ==========================================================================
+   3. Main Page & Scrollable Content
+   ========================================================================== */
+
+.main-content-layout {
+  display: none; /* Controlled via JS */
+  opacity: 0;
+  max-width: 660px;
+  margin: 0 auto;
+  padding: 3rem 1.25rem 5rem;
+  position: relative;
+  z-index: 10;
+  transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.main-content-layout.visible {
+  display: block;
+  opacity: 1;
+}
+
+/* Hero Section */
+.card-hero {
+  background-color: #fcfbf9;
+  border: 1px solid rgba(44, 40, 36, 0.3);
+  outline: 1px solid rgba(44, 40, 36, 0.3);
+  outline-offset: -8px;
+  border-radius: 8px;
+  padding: 3rem 2rem;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(44, 40, 36, 0.08);
+  margin-bottom: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-monogram-container {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1.5rem;
+  border-radius: 50%;
+  border: 1px solid var(--gold-light);
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--cream-bg);
+  box-shadow: 0 4px 12px rgba(198, 167, 123, 0.1);
+}
+
+.hero-monogram {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.hero-mini-tag {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  color: var(--gold-dark);
+  margin-bottom: 0.75rem;
+}
+
+.couple-names {
+  font-family: var(--font-script);
+  font-size: 4rem;
+  font-weight: 400;
+  color: var(--gold-dark);
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 480px) {
+  .couple-names {
+    font-size: 3.2rem;
+  }
+}
+
+.wedding-quote {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  font-style: italic;
+  line-height: 1.7;
+  color: #555;
+  max-width: 440px;
+  margin: 0 auto 1.5rem;
+}
+
+.luxury-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.luxury-divider::before,
+.luxury-divider::after {
+  content: "";
+  height: 1px;
+  width: 60px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.luxury-divider span {
+  font-size: 1.1rem;
+  color: var(--gold);
+}
+
+.hero-date {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--charcoal);
+  margin-bottom: 0.25rem;
+}
+
+.hero-venue {
+  font-family: var(--font-title);
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  color: #666;
+}
+
+/* Bento Collage Grid Layout */
+.collage-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 560px) {
+  .collage-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .col-span-2 {
+    grid-column: span 2;
+  }
+}
+
+/* Cards Design System */
+.card-premium {
+  border-radius: 8px;
+  padding: 2.25rem 2rem;
+  box-shadow: 0 8px 24px rgba(44, 40, 36, 0.08);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.card-premium:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(44, 40, 36, 0.12);
+}
+
+.card-light {
+  background-color: #fcfbf9;
+  border: 1px solid rgba(44, 40, 36, 0.3);
+  outline: 1px solid rgba(44, 40, 36, 0.3);
+  outline-offset: -8px;
+  color: var(--charcoal);
+}
+
+.card-dark {
+  background-color: var(--dark-card);
+  border: 1px solid rgba(198, 167, 123, 0.15);
+  color: #fcfbf9;
+}
+
+.section-icon {
+  font-size: 1.8rem !important;
+  color: var(--gold-dark);
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+.card-dark .section-icon {
+  color: var(--gold);
+}
+
+.section-title {
+  font-family: var(--font-title);
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.25rem;
+  text-transform: uppercase;
+}
+
+.section-subtitle {
+  font-family: var(--font-sans);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  color: #777;
+  margin-bottom: 1.25rem;
+}
+
+.text-gold {
+  color: var(--gold) !important;
+}
+
+.text-gold-light {
+  color: var(--gold-light) !important;
+}
+
+/* Card 1 Details: Blessings & Families */
+.blessing-columns {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+@media (min-width: 480px) {
+  .blessing-columns {
+    flex-direction: row;
+    align-items: stretch;
+  }
+  .blessing-column-divider {
+    width: 1px;
+    background: linear-gradient(180deg, transparent, var(--gold-light), transparent);
+  }
+}
+
+.blessing-column {
+  flex: 1;
+  text-align: center;
+}
+
+.blessing-column h3 {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  color: var(--charcoal);
+  margin-bottom: 0.25rem;
+}
+
+.parent-placeholder {
+  font-family: var(--font-script);
+  font-size: 1.5rem;
+  color: var(--gold-dark);
+}
+
+.blessing-footer {
+  font-family: var(--font-serif);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: #555;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+/* Card 2 Details: Time/Lieu Details */
+.details-body {
+  margin: 1rem 0 1.5rem;
+  text-align: center;
+}
+
+.detail-highlight {
+  font-family: var(--font-sans);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--gold-dark);
+}
+
+.detail-sub {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: 0.1rem;
+}
+
+.detail-desc {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  font-weight: 500;
+  color: #666;
+  margin-top: 0.5rem;
+}
+
+/* Custom Premium Buttons */
+.btn-luxury {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  padding: 0.85rem 1.75rem;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  outline: none;
+  width: auto;
+}
+
+.btn-gold-outline {
+  border: 1px solid rgba(198, 167, 123, 0.45);
+  background-color: transparent;
+  color: var(--gold-dark);
+}
+
+.btn-gold-outline:hover {
+  background-color: rgba(198, 167, 123, 0.08);
+  border-color: var(--gold);
+}
+
+.btn-gold {
+  background-color: var(--gold);
+  border: 1px solid var(--gold);
+  color: #ffffff;
+  box-shadow: 0 4px 15px rgba(198, 167, 123, 0.2);
+}
+
+.btn-gold:hover {
+  background-color: var(--gold-dark);
+  border-color: var(--gold-dark);
+  box-shadow: 0 6px 20px rgba(153, 124, 85, 0.35);
+}
+
+.btn-large {
+  padding: 1.1rem 2.2rem;
+  font-size: 0.75rem;
+  border-radius: 18px;
+}
+
+/* Card 3 Details: Dress Code palette */
+.color-palette-container {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 1.25rem 0 0.5rem;
+}
+
+.palette-chip {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.palette-chip:hover {
+  transform: scale(1.18);
+}
+
+.chip-1 { background-color: #d3b484; } /* Rich gold */
+.chip-2 { background-color: #ebdcb9; } /* Champagne */
+.chip-3 { background-color: #dfcdbd; } /* Blush sand */
+.chip-4 { background-color: #f4ece1; } /* Off-white linen */
+.chip-5 { background-color: #8c9789; } /* Olive */
+
+.palette-label {
+  font-family: var(--font-sans);
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #888;
+  text-align: center;
+}
+
+/* Card 4 Details: Countdown timer */
+.countdown-grid {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 1rem;
+}
+
+.countdown-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.countdown-num {
+  font-family: var(--font-title);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.countdown-label {
+  font-family: var(--font-sans);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #cbd4cb;
+  margin-top: 2px;
+}
+
+.countdown-divider {
+  width: 1px;
+  background: rgba(198, 167, 123, 0.2);
+  align-self: stretch;
+}
+
+/* Card 5 Details: Gift registry / Bank Details */
+.gift-text {
+  font-family: var(--font-serif);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 1.25rem;
+  text-align: justify;
+}
+
+.bank-details-box {
+  background-color: var(--cream-bg);
+  border: 1px solid var(--gold-light);
+  border-radius: 18px;
+  padding: 1.25rem 1rem;
+  text-align: center;
+}
+
+.bank-label {
+  font-family: var(--font-sans);
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--gold-dark);
+  margin-bottom: 0.35rem;
+  text-transform: uppercase;
+}
+
+.bank-code {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--charcoal);
+  letter-spacing: 0.05em;
+  margin-bottom: 0.85rem;
+}
+
+.btn-copy {
+  background-color: #ffffff;
+  border: 1px solid rgba(198, 167, 123, 0.4);
+  color: var(--gold-dark);
+  font-family: var(--font-sans);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+
+.btn-copy:hover {
+  background-color: rgba(198, 167, 123, 0.05);
+  border-color: var(--gold);
+}
+
+.btn-copy:active {
+  transform: scale(0.97);
+}
+
+/* Card 6 Details: Song Suggestion Form */
+.song-intro {
+  font-family: var(--font-serif);
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 1.25rem;
+}
+
+.luxury-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  text-align: left;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.form-group label {
+  font-family: var(--font-sans);
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--gold-dark);
+  text-transform: uppercase;
+}
+
+.card-dark .form-group label {
+  color: var(--gold-light);
+}
+
+.luxury-form input[type="text"],
+.luxury-form input[type="email"],
+.luxury-form textarea,
+.form-select {
+  border: 1px solid rgba(198, 167, 123, 0.35);
+  background-color: rgba(255, 255, 255, 0.95);
+  color: var(--charcoal);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 12px;
+  outline: none;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.luxury-form input:focus,
+.luxury-form textarea:focus,
+.form-select:focus {
+  border-color: var(--gold-dark);
+  box-shadow: 0 0 0 3px rgba(198, 167, 123, 0.15);
+}
+
+.form-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23997c55'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1.25rem;
+  padding-right: 2rem;
+}
+
+.form-response {
+  margin-top: 1rem;
+  padding: 0.85rem;
+  border-radius: 12px;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.form-response.success {
+  background-color: rgba(198, 167, 123, 0.1);
+  border: 1px solid var(--gold);
+  color: var(--gold-dark);
+}
+
+.form-response.error {
+  background-color: rgba(239, 68, 68, 0.08);
+  border: 1px solid #ef4444;
+  color: #ef4444;
+}
+
+/* Card 7 Details: RSVP invitation */
+.rsvp-intro {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.rsvp-action-container {
+  display: flex;
+  justify-content: center;
+}
+
+/* Scroll reveal cards animations */
+.reveal-card {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-card.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Footer layout */
+.footer-layout {
+  text-align: center;
+  padding: 3rem 1.5rem 1rem;
+  position: relative;
+}
+
+.footer-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-light), transparent);
+  max-width: 280px;
+  margin: 0 auto 2rem;
+}
+
+.footer-title {
+  font-family: var(--font-script);
+  font-size: 2.8rem;
+  color: var(--gold-dark);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.footer-sub {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 0.25rem;
+  margin-bottom: 2.5rem;
+}
+
+.copyright {
+  font-family: var(--font-sans);
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  color: #999;
+}
+
+/* ==========================================================================
+   4. Modals and Popups Layout
+   ========================================================================== */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(44, 40, 36, 0.5); /* Outer shadow overlay */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s ease;
+  padding: 1.25rem;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-container {
+  background-color: #fcfbf9;
+  border: 1px solid rgba(44, 40, 36, 0.4);
+  outline: 1px solid rgba(44, 40, 36, 0.4);
+  outline-offset: -8px;
+  border-radius: 8px;
+  max-width: 480px;
+  width: 100%;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.20);
+  padding: 2.25rem 2rem;
+  position: relative;
+  transform: scale(0.93);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-overlay.active .modal-container {
+  transform: scale(1);
+}
+
+.modal-close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  outline: none;
+  transition: color 0.2s ease;
+}
+
+.modal-close:hover {
+  color: var(--charcoal);
+}
+
+.modal-close span {
+  font-size: 1.6rem;
+}
+
+.modal-title {
+  font-family: var(--font-title);
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--gold-dark);
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+
+.modal-subtitle {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: #777;
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+
+/* Map Iframe Styling */
+.map-iframe-container {
+  width: 100%;
+  height: 240px;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(198, 167, 123, 0.3);
+  margin-bottom: 1.5rem;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.05);
+}
+
+.modal-map-btn {
+  width: 100%;
+  text-align: center;
+}
+
+/* RSVP Modal Flow Specifics */
+.rsvp-modal-container {
+  max-width: 440px;
+  padding: 2.25rem 1.75rem;
+}
+
+.rsvp-stage {
+  transition: opacity 0.3s ease;
+}
+
+/* RSVP Stage 1: Search results */
+.search-results-list {
+  margin-top: 1.5rem;
+  border-top: 1px dashed rgba(198, 167, 123, 0.3);
+  padding-top: 1.25rem;
+}
+
+.results-heading {
+  font-family: var(--font-sans);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: #666;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.results-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 150px;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+.btn-guest-result {
+  background-color: var(--cream-bg);
+  border: 1px solid rgba(198, 167, 123, 0.25);
+  color: var(--charcoal);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-guest-result:hover {
+  background-color: #ffffff;
+  border-color: var(--gold);
+  transform: translateX(4px);
+}
+
+.btn-guest-result span {
+  font-size: 0.95rem;
+  color: var(--gold-dark);
+}
+
+.search-error-box {
+  margin-top: 1rem;
+  padding: 0.85rem;
+  border-radius: 12px;
+  background-color: rgba(239, 68, 68, 0.06);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* RSVP Stage 2: Selection */
+.seats-allowance-banner {
+  background-color: rgba(198, 167, 123, 0.08);
+  border: 1px solid rgba(198, 167, 123, 0.25);
+  padding: 0.75rem 1rem;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  color: var(--gold-dark);
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 600;
+}
+
+.seats-allowance-banner span {
+  font-size: 1.1rem;
+}
+
+.select-status-group {
+  margin-bottom: 1.25rem;
+}
+
+.radio-card-options {
+  display: flex;
+  gap: 0.85rem;
+  margin-top: 0.35rem;
+}
+
+.radio-card {
+  flex: 1;
+  cursor: pointer;
+  position: relative;
+}
+
+.radio-card input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0; height: 0;
+}
+
+.radio-card-btn {
+  border: 1px solid rgba(198, 167, 123, 0.3);
+  background-color: #ffffff;
+  border-radius: 14px;
+  padding: 0.85rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.radio-card-btn span {
+  font-size: 1.5rem;
+  color: #ccc;
+  margin-bottom: 0.25rem;
+}
+
+.radio-card-btn strong {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #777;
+}
+
+/* Checked States */
+.radio-card input[type="radio"]:checked + .radio-card-btn {
+  box-shadow: 0 4px 12px rgba(198, 167, 123, 0.15);
+}
+
+.select-attending input[type="radio"]:checked + .radio-card-btn {
+  border-color: var(--gold);
+  background-color: rgba(198, 167, 123, 0.06);
+}
+.select-attending input[type="radio"]:checked + .radio-card-btn span {
+  color: var(--gold-dark);
+}
+.select-attending input[type="radio"]:checked + .radio-card-btn strong {
+  color: var(--charcoal);
+}
+
+.select-declining input[type="radio"]:checked + .radio-card-btn {
+  border-color: #d1a89c;
+  background-color: #faf5f3;
+}
+.select-declining input[type="radio"]:checked + .radio-card-btn span {
+  color: #c07865;
+}
+.select-declining input[type="radio"]:checked + .radio-card-btn strong {
+  color: var(--charcoal);
+}
+
+/* RSVP Stage 3: Success Box */
+.success-icon-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+}
+
+.success-check-icon {
+  font-size: 4rem !important;
+  color: var(--gold-dark);
+}
+
+.rsvp-summary-box {
+  background-color: var(--cream-bg);
+  border: 1px solid var(--gold-light);
+  border-radius: 18px;
+  padding: 1.25rem;
+  margin: 1.25rem 0;
+  text-align: left;
+}
+
+.rsvp-summary-box p {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.rsvp-summary-box p:last-child {
+  margin-bottom: 0;
+}
+
+.rsvp-summary-box span {
+  color: var(--charcoal);
+}
+
+#summary-status-badge {
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--gold-dark);
+}
+
+/* Helper Utilities */
+.hidden {
+  display: none !important;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.w-full {
+  width: 100% !important;
+}
+
+/* ==========================================================================
+   5. Custom Keyframe Animations
+   ========================================================================== */
+
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+@keyframes spin-vinyl {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes shine-animation {
+  0% { left: -150%; }
+  50% { left: 150%; }
+  100% { left: 150%; }
+}
+
+/* ==========================================================================
+   Interactive Grid Envelope (Bento Card Component)
+   ========================================================================== */
+
+.card-envelope-interactive {
+  height: 380px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.grid-envelope {
+  position: absolute;
+  bottom: 1.5rem;
+  width: 220px;
+  height: 150px;
+  background-color: #ebdcb9; /* Inner liner */
+  border-radius: 0 0 6px 6px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  perspective: 800px;
+}
+
+.grid-envelope-inner {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-color: #dfcdab;
+  border-radius: 0 0 6px 6px;
+  z-index: 1;
+}
+
+.grid-envelope-left {
+  position: absolute;
+  top: 0; left: 0; width: 0; height: 0;
+  border-left: 110px solid #eae1cd;
+  border-top: 75px solid transparent;
+  border-bottom: 75px solid #eae1cd;
+  z-index: 3;
+}
+
+.grid-envelope-right {
+  position: absolute;
+  top: 0; right: 0; width: 0; height: 0;
+  border-right: 110px solid #eae1cd;
+  border-top: 75px solid transparent;
+  border-bottom: 75px solid #eae1cd;
+  z-index: 3;
+}
+
+.grid-envelope-bottom {
+  position: absolute;
+  bottom: 0; left: 0; width: 0; height: 0;
+  border-left: 110px solid transparent;
+  border-right: 110px solid transparent;
+  border-bottom: 75px solid #dfd8c2;
+  z-index: 4;
+}
+
+.grid-envelope-top-flap {
+  position: absolute;
+  top: 0; left: 0; width: 0; height: 0;
+  border-left: 110px solid transparent;
+  border-right: 110px solid transparent;
+  border-top: 75px solid #eae1cd;
+  transform-origin: top;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 5;
+}
+
+/* Wax Seal for Grid */
+.grid-wax-seal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 1px solid var(--gold);
+  box-shadow: 0 3px 10px rgba(50, 45, 41, 0.15);
+  cursor: pointer;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px;
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+.grid-wax-seal:hover {
+  transform: translate(-50%, -50%) scale(1.1);
+  box-shadow: 0 5px 15px rgba(198, 167, 123, 0.3);
+}
+
+.grid-wax-seal-img {
+  width: 90%;
+  height: 90%;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.grid-wax-seal::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -150%; width: 300%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  transform: skewX(-20deg);
+  animation: shine-animation 3s infinite;
+}
+
+/* Save the Date Card sliding out */
+.grid-envelope-card {
+  position: absolute;
+  top: 6px;
+  left: 8px;
+  width: 204px;
+  height: 138px;
+  background-color: var(--white-card);
+  border: 1px solid var(--gold);
+  border-radius: 4px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+  z-index: 2;
+  transition: transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+  padding: 4px;
+  box-sizing: border-box;
+}
+
+.grid-card-inner {
+  border: 1px solid rgba(198, 167, 123, 0.25);
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+}
+
+.grid-card-photo {
+  width: 45%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+}
+
+.grid-card-details {
+  width: 55%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 6px;
+  background-color: #fcfbf9;
+}
+
+.grid-card-tag {
+  font-family: var(--font-sans);
+  font-size: 0.4rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--gold-dark);
+}
+
+.grid-card-names {
+  font-family: var(--font-script);
+  font-size: 1.15rem;
+  line-height: 1.1;
+  color: var(--charcoal);
+  margin-top: 2px;
+}
+
+.grid-card-date {
+  font-family: var(--font-sans);
+  font-size: 0.45rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: #777;
+  margin-top: 4px;
+}
+
+/* Animations triggers for grid envelope */
+.grid-envelope.open .grid-envelope-top-flap {
+  transform: rotateX(180deg);
+  z-index: 1;
+}
+
+.grid-envelope.open .grid-envelope-card {
+  transform: translateY(-160px);
+  z-index: 5;
+}
