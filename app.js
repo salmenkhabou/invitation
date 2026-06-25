@@ -28,18 +28,19 @@ document.addEventListener('DOMContentLoaded', () => {
     reset() {
       this.x = Math.random() * canvas.width;
       this.y = canvas.height + 10;
-      this.size = Math.random() * 2.5 + 0.5;
-      this.speedY = Math.random() * 0.6 + 0.2;
-      this.speedX = Math.random() * 0.4 - 0.2;
-      this.opacity = Math.random() * 0.5 + 0.2;
+      this.size = Math.random() * 3.5 + 0.5; // Slightly larger for soft pearl bokeh
+      this.speedY = Math.random() * 0.5 + 0.15;
+      this.speedX = Math.random() * 0.3 - 0.15;
+      this.opacity = Math.random() * 0.5 + 0.15;
       this.wobble = Math.random() * Math.PI;
-      this.wobbleSpeed = Math.random() * 0.02 + 0.005;
+      this.wobbleSpeed = Math.random() * 0.015 + 0.003;
+      this.type = Math.random() > 0.35 ? 'pearl' : 'gold'; // Mix of pearl and gold
     }
     
     update() {
       this.y -= this.speedY;
       this.wobble += this.wobbleSpeed;
-      this.x += this.speedX + Math.sin(this.wobble) * 0.15;
+      this.x += this.speedX + Math.sin(this.wobble) * 0.12;
       
       if (this.y < -10 || this.x < -10 || this.x > canvas.width + 10) {
         this.reset();
@@ -49,9 +50,17 @@ document.addEventListener('DOMContentLoaded', () => {
     draw() {
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(198, 167, 123, ${this.opacity})`;
-      ctx.shadowBlur = this.size * 2;
-      ctx.shadowColor = 'rgba(198, 167, 123, 0.4)';
+      if (this.type === 'pearl') {
+        // Soft white pearlescent bokeh bubble
+        ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity * 0.6})`;
+        ctx.shadowBlur = this.size * 2;
+        ctx.shadowColor = 'rgba(255, 255, 255, 0.4)';
+      } else {
+        // Champagne gold dust speck
+        ctx.fillStyle = `rgba(205, 179, 145, ${this.opacity})`;
+        ctx.shadowBlur = this.size * 1.5;
+        ctx.shadowColor = 'rgba(205, 179, 145, 0.3)';
+      }
       ctx.fill();
     }
   }
@@ -835,7 +844,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Copy website link logic for Share Card
   if (deckShareBtn) {
     deckShareBtn.addEventListener('click', () => {
-      const siteUrl = window.location.origin + window.location.pathname;
+      const siteUrl = "https://invitation-rm.netlify.app/";
       navigator.clipboard.writeText(siteUrl)
         .then(() => {
           deckShareBtn.textContent = 'Lien Copié !';

@@ -1,13 +1,13 @@
 /* Design Variables & Token System */
 :root {
-  --cream-bg: #fdfaf5;       /* Warm linen off-white paper background */
-  --sand-bg: #f5f0e6;        /* Deeper warm sand tone */
-  --charcoal: #2c2824;       /* Deep warm bronze-charcoal text */
-  --gold: #c6a77b;           /* Champagne Gold */
-  --gold-dark: #997c55;      /* Deep Gold for text contrast */
-  --gold-light: #e5d4be;     /* Soft warm gold border tint */
+  --cream-bg: #FAF8F5;       /* Warm plaster ivory off-white paper background */
+  --sand-bg: #EFECE6;        /* Soft linen sand/beige tone */
+  --charcoal: #2E2A27;       /* Deep warm bronze-charcoal text */
+  --gold: #CDB391;           /* Champagne Gold */
+  --gold-dark: #9D8465;      /* Deep Gold for text contrast */
+  --gold-light: #EBE3D7;     /* Soft warm gold border tint */
   --white-card: #ffffff;     /* Pure card white */
-  --dark-card: #3a423b;      /* Elegant deep olive green card */
+  --dark-card: #3E3A35;      /* Elegant deep bronze-charcoal card */
   --font-serif: 'Playfair Display', serif;
   --font-sans: 'Montserrat', sans-serif;
   --font-title: 'Cinzel', serif;
@@ -23,7 +23,7 @@
 
 body {
   font-family: var(--font-serif);
-  background-image: url('background.png');
+  background-image: radial-gradient(circle at 50% 50%, rgba(250, 248, 245, 0.4), rgba(243, 239, 232, 0.55)), url('background.png');
   background-attachment: fixed;
   background-size: cover;
   background-position: center;
@@ -39,7 +39,7 @@ body {
   width: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: #fdfaf5;
+  background: #FAF8F5;
 }
 ::-webkit-scrollbar-thumb {
   background: var(--gold-dark);
@@ -68,8 +68,8 @@ body {
   width: 100%;
   height: 100%;
   pointer-events: none;
-  background: radial-gradient(circle at 10% 12%, rgba(61, 74, 62, 0.04) 0%, transparent 60%),
-              radial-gradient(circle at 90% 88%, rgba(61, 74, 62, 0.03) 0%, transparent 50%);
+  background: radial-gradient(circle at 10% 12%, rgba(44, 40, 36, 0.03) 0%, transparent 60%),
+              radial-gradient(circle at 90% 88%, rgba(44, 40, 36, 0.02) 0%, transparent 50%);
   z-index: 1;
 }
 
@@ -91,7 +91,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: linear-gradient(rgba(23, 24, 28, 0.55), rgba(23, 24, 28, 0.55)), url('background.png');
+  background-image: radial-gradient(circle at 50% 50%, rgba(250, 248, 245, 0.35), rgba(235, 230, 222, 0.5)), url('background.png');
   background-size: cover;
   background-position: center;
   z-index: 1000;
@@ -118,10 +118,13 @@ body {
 /* Scattered background envelopes for rich scene composition */
 .scattered-envelope {
   position: absolute;
-  background-color: #43524b; /* Muted sage spruce green */
-  background-image: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.08) 100%);
+  background-color: #EFECE6; /* Soft linen sand/beige tone */
+  background-image: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(44,40,36,0.04) 100%);
+  border: 1px solid rgba(198, 167, 123, 0.35);
+  outline: 1px solid rgba(198, 167, 123, 0.2);
+  outline-offset: -8px;
   border-radius: 4px;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 12px 30px rgba(44, 40, 36, 0.15);
   pointer-events: none;
   z-index: 10;
   box-sizing: border-box;
@@ -173,8 +176,8 @@ body {
   font-family: var(--font-title);
   font-size: 0.75rem;
   letter-spacing: 0.15em;
-  color: rgba(255, 255, 255, 0.05);
-  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.05), -1px -1px 0px rgba(0,0,0,0.4);
+  color: rgba(157, 132, 101, 0.35);
+  text-shadow: 0.5px 0.5px 0px rgba(255, 255, 255, 0.7), -0.5px -0.5px 0px rgba(0,0,0,0.1);
   transform: rotate(15deg);
   text-transform: uppercase;
 }
@@ -183,8 +186,8 @@ body {
   font-family: var(--font-title);
   font-size: 0.8rem;
   letter-spacing: 0.15em;
-  color: rgba(255, 255, 255, 0.05);
-  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.05), -1px -1px 0px rgba(0,0,0,0.4);
+  color: rgba(157, 132, 101, 0.35);
+  text-shadow: 0.5px 0.5px 0px rgba(255, 255, 255, 0.7), -0.5px -0.5px 0px rgba(0,0,0,0.1);
   transform: rotate(-18deg);
   text-transform: uppercase;
 }
@@ -214,8 +217,8 @@ body {
   font-family: var(--font-title);
   font-size: 0.75rem;
   letter-spacing: 0.12em;
-  color: rgba(255, 255, 255, 0.04);
-  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.04), -1px -1px 0px rgba(0,0,0,0.35);
+  color: rgba(157, 132, 101, 0.3);
+  text-shadow: 0.5px 0.5px 0px rgba(255, 255, 255, 0.7), -0.5px -0.5px 0px rgba(0,0,0,0.1);
   transform: rotate(-14deg);
   text-transform: uppercase;
 }
@@ -227,10 +230,10 @@ body {
   right: 10%;
   width: 130px;
   height: 36px;
-  background: linear-gradient(to bottom, #502e1a, #6c4128 20%, #462512 80%, #240d04 100%);
+  background: linear-gradient(to bottom, #FAF8F5, #EFECE6 20%, #DFD9CD 80%, #C4BCAF 100%); /* Carved marble look */
   border-radius: 18px 4px 4px 18px;
   transform: rotate(-35deg) translateZ(-20px);
-  box-shadow: 5px 8px 18px rgba(0, 0, 0, 0.5);
+  box-shadow: 3px 6px 14px rgba(44, 40, 36, 0.2);
   z-index: 15;
   pointer-events: none;
 }
@@ -243,9 +246,58 @@ body {
   transform: translateY(-50%);
   width: 12px;
   height: 28px;
-  background: linear-gradient(to bottom, #d4af37, #aa7c11, #d4af37);
+  background: linear-gradient(to bottom, #EBE3D7, #9D8465, #EBE3D7); /* Gold metal stamp head */
   border-radius: 2px 6px 6px 2px;
-  box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+  box-shadow: 2px 2px 5px rgba(44, 40, 36, 0.15);
+}
+
+/* Realistic 3D Pearls scattered on the desk */
+.desk-pearl {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffffff 0%, #FAF8F5 20%, #EFECE6 60%, #CDB391 85%, #9D8465 100%);
+  box-shadow: 
+    inset 1px 1px 2px rgba(255, 255, 255, 0.95),
+    inset -2px -2px 4px rgba(44, 40, 36, 0.1),
+    3px 6px 14px rgba(44, 40, 36, 0.22);
+  z-index: 12;
+  pointer-events: none;
+  transition: transform 0.5s ease;
+}
+
+.pearl-1 {
+  top: 12%;
+  left: 20%;
+  width: 16px;
+  height: 16px;
+}
+
+.pearl-2 {
+  bottom: 18%;
+  left: 10%;
+  width: 22px;
+  height: 22px;
+}
+
+.pearl-3 {
+  top: 52%;
+  right: 15%;
+  width: 14px;
+  height: 14px;
+}
+
+.pearl-4 {
+  top: 25%;
+  right: 32%;
+  width: 18px;
+  height: 18px;
+}
+
+.pearl-5 {
+  bottom: 15%;
+  right: 18%;
+  width: 26px;
+  height: 26px;
 }
 
 /* Main Interactive Envelope Container */
@@ -263,9 +315,9 @@ body {
   position: relative;
   width: 320px;
   height: 220px;
-  background-color: #ebdcb9; /* Envelope inner pocket liner */
+  background-color: #E6E0D4; /* Envelope inner pocket liner */
   border-radius: 0 0 4px 4px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 20px 50px rgba(44, 40, 36, 0.15);
   perspective: 1200px;
 }
 
@@ -273,7 +325,7 @@ body {
 .envelope-inner {
   position: absolute;
   top: 0; left: 0; width: 100%; height: 100%;
-  background-color: #dfcdab;
+  background-color: #DFD9CD;
   border-radius: 0 0 4px 4px;
   z-index: 10;
 }
@@ -281,9 +333,9 @@ body {
 .envelope-left {
   position: absolute;
   top: 0; left: 0; width: 0; height: 0;
-  border-left: 160px solid #f2ece0;
+  border-left: 160px solid #FAF8F5;
   border-top: 110px solid transparent;
-  border-bottom: 110px solid #f2ece0;
+  border-bottom: 110px solid #FAF8F5;
   z-index: 30;
   border-radius: 0 0 0 4px;
 }
@@ -291,9 +343,9 @@ body {
 .envelope-right {
   position: absolute;
   top: 0; right: 0; width: 0; height: 0;
-  border-right: 160px solid #f2ece0;
+  border-right: 160px solid #FAF8F5;
   border-top: 110px solid transparent;
-  border-bottom: 110px solid #f2ece0;
+  border-bottom: 110px solid #FAF8F5;
   z-index: 30;
   border-radius: 0 0 4px 0;
 }
@@ -303,7 +355,7 @@ body {
   bottom: 0; left: 0; width: 0; height: 0;
   border-left: 160px solid transparent;
   border-right: 160px solid transparent;
-  border-bottom: 110px solid #e3dbcb;
+  border-bottom: 110px solid #E5DFD4;
   z-index: 40;
   border-radius: 0 0 4px 4px;
 }
@@ -313,14 +365,14 @@ body {
   top: 0; left: 0; width: 0; height: 0;
   border-left: 160px solid transparent;
   border-right: 160px solid transparent;
-  border-top: 110px solid #f2ece0;
+  border-top: 110px solid #FAF8F5;
   transform-origin: top;
   transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 50;
-  filter: drop-shadow(0 4px 5px rgba(0,0,0,0.1));
+  filter: drop-shadow(0 4px 5px rgba(44, 40, 36, 0.08));
 }
 
-/* Metallic Copper/Bronze Organic Wax Seal */
+/* Pearlescent White/Ivory Wax Seal with gold crest */
 .wax-seal {
   position: absolute;
   top: 50%;
@@ -329,19 +381,19 @@ body {
   width: 60px;
   height: 60px;
   border: none;
-  background: radial-gradient(circle at 35% 35%, #b27344 0%, #8c4e25 50%, #5c2d0f 100%);
-  border-radius: 48% 41% 47% 43% / 42% 47% 41% 48%; /* Organic organic edge shape */
+  background: radial-gradient(circle at 35% 35%, #ffffff 0%, #FAF8F5 30%, #EFECE6 70%, #DCD8D0 100%);
+  border-radius: 48% 41% 47% 43% / 42% 47% 41% 48%; /* Organic edge shape */
   box-shadow: 
-    inset 1px 1px 2px rgba(255, 255, 255, 0.35),
-    inset -2px -2px 4px rgba(0, 0, 0, 0.5),
-    0 5px 15px rgba(0, 0, 0, 0.35);
+    inset 1px 1px 3px rgba(255, 255, 255, 1),
+    inset -2px -2px 4px rgba(44, 40, 36, 0.15),
+    0 5px 15px rgba(44, 40, 36, 0.18);
   cursor: pointer;
   z-index: 60;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #4a2107; /* Engraved look */
-  text-shadow: -1px -1px 0px rgba(0, 0, 0, 0.55), 1px 1px 0px rgba(255, 255, 255, 0.15);
+  color: #9D8465; /* Matte gold crest color */
+  text-shadow: 0.5px 0.5px 0px rgba(255, 255, 255, 0.8), -0.5px -0.5px 0px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, opacity 0.5s ease;
 }
 
@@ -407,6 +459,24 @@ body {
   text-align: center;
   padding: 12px;
   box-sizing: border-box;
+  position: relative; /* Relative position so ::before pearl works */
+}
+
+/* Mini 3D pearl at the top center of every card inside the deck */
+.deck-card-inner::before {
+  content: '';
+  position: absolute;
+  top: 7px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffffff 0%, #FAF8F5 35%, #EFECE6 75%, #CDB391 100%);
+  box-shadow: 
+    inset 0.5px 0.5px 1px rgba(255, 255, 255, 0.95),
+    1px 1px 2px rgba(44, 40, 36, 0.15);
+  z-index: 10;
 }
 
 /* Buttons style inside deck cards */
@@ -436,7 +506,7 @@ body {
   left: 20px;
   width: 146px;
   height: 160px;
-  background-color: rgba(253, 250, 245, 0.9);
+  background-color: rgba(253, 250, 245, 0.95);
   border: 1px solid rgba(198, 167, 123, 0.45);
   z-index: 25;
   transform: translate(0, 0) scale(0.95);
@@ -483,15 +553,15 @@ body {
   box-shadow: 0 4px 10px rgba(198, 167, 123, 0.25);
 }
 
-/* 2. Details Card: Vertical Sage green card */
+/* 2. Details Card: Vertical luxury warm sand paper card */
 .card-details {
   bottom: 5px;
   right: 20px;
   width: 146px;
   height: 160px;
-  background-color: #4b5a52; /* Sage Green matching scattered envs */
-  border: 1px solid rgba(198, 167, 123, 0.25);
-  color: #fbfaf8;
+  background-color: #EFECE6; /* Warm Sand Paper color */
+  border: 1px solid rgba(198, 167, 123, 0.4);
+  color: var(--charcoal);
   z-index: 24;
   transform: translate(0, 0) scale(0.95);
 }
@@ -502,7 +572,7 @@ body {
 
 .card-details .card-icon {
   font-size: 1.2rem !important;
-  color: var(--gold);
+  color: var(--gold-dark);
   margin-bottom: 4px;
 }
 
@@ -511,7 +581,7 @@ body {
   font-size: 0.55rem;
   font-weight: 600;
   letter-spacing: 0.2em;
-  color: var(--gold-light);
+  color: var(--gold-dark);
   text-transform: uppercase;
 }
 
@@ -519,7 +589,7 @@ body {
   font-family: var(--font-title);
   font-size: 0.85rem;
   letter-spacing: 0.15em;
-  color: #ffffff;
+  color: var(--charcoal);
   margin-top: 1px;
 }
 
@@ -528,7 +598,7 @@ body {
   font-size: 0.48rem;
   line-height: 1.5;
   letter-spacing: 0.05em;
-  color: #cbd4cb;
+  color: #666;
 }
 
 .card-details .deck-card-divider {
@@ -536,8 +606,8 @@ body {
 }
 
 .btn-map-action {
-  background-color: var(--gold);
-  border: 1px solid var(--gold);
+  background-color: var(--charcoal);
+  border: 1px solid var(--charcoal);
   color: #ffffff;
 }
 
@@ -553,7 +623,7 @@ body {
   left: 45px;
   width: 210px;
   height: 270px;
-  background-color: #fcfbf9; /* Cream Paper */
+  background-color: #ffffff; /* Premium Matte White Paper */
   border: 1.5px solid var(--gold);
   z-index: 23;
   transform: translate(0, 0) scale(0.95);
@@ -570,6 +640,7 @@ body {
   line-height: 1;
   color: var(--gold-dark);
   margin-bottom: 2px;
+  margin-top: 4px;
 }
 
 .card-main .deck-couple-names {
@@ -633,7 +704,7 @@ body {
   left: 20px;
   width: 146px;
   height: 160px;
-  background-color: #fcfbf9;
+  background-color: #FAF8F5; /* Plaster Ivory Paper */
   border: 1px solid rgba(198, 167, 123, 0.45);
   color: var(--charcoal);
   z-index: 21;
@@ -693,15 +764,15 @@ body {
   margin-top: 2px;
 }
 
-/* 5. Share Card: Muted Sage Green card */
+/* 5. Share Card: Soft Plaster Ivory Card */
 .card-share {
   bottom: 10px;
   right: 20px;
   width: 146px;
   height: 160px;
-  background-color: #4b5a52; /* Sage green matching details card */
-  border: 1px solid rgba(198, 167, 123, 0.25);
-  color: #ffffff;
+  background-color: #FAF8F5; /* Plaster Ivory Paper */
+  border: 1px solid rgba(198, 167, 123, 0.45);
+  color: var(--charcoal);
   z-index: 22;
   transform: translate(0, 0) scale(0.95);
 }
@@ -715,7 +786,7 @@ body {
   font-family: var(--font-title);
   font-size: 0.65rem;
   letter-spacing: 0.1em;
-  color: var(--gold-light);
+  color: var(--gold-dark);
   text-transform: uppercase;
 }
 
@@ -729,7 +800,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(198, 167, 123, 0.2);
 }
 
 .card-share .qr-img {
@@ -741,7 +813,7 @@ body {
 .card-share .deck-card-text {
   font-family: var(--font-sans);
   font-size: 0.4rem;
-  color: rgba(255, 255, 255, 0.7);
+  color: #666;
   margin-top: 6px;
   line-height: 1.3;
   letter-spacing: 0.03em;
@@ -935,14 +1007,14 @@ body {
 
 /* Hero Section */
 .card-hero {
-  background-color: #fcfbf9;
-  border: 1px solid rgba(44, 40, 36, 0.3);
-  outline: 1px solid rgba(44, 40, 36, 0.3);
+  background-color: #ffffff;
+  border: 1px solid var(--gold-light);
+  outline: 1px solid rgba(198, 167, 123, 0.25);
   outline-offset: -8px;
   border-radius: 8px;
   padding: 3rem 2rem;
   text-align: center;
-  box-shadow: 0 10px 40px rgba(44, 40, 36, 0.08);
+  box-shadow: 0 10px 40px rgba(44, 40, 36, 0.05);
   margin-bottom: 1.5rem;
   position: relative;
   overflow: hidden;
@@ -1060,29 +1132,49 @@ body {
 .card-premium {
   border-radius: 8px;
   padding: 2.25rem 2rem;
-  box-shadow: 0 8px 24px rgba(44, 40, 36, 0.08);
+  box-shadow: 0 8px 24px rgba(44, 40, 36, 0.04);
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
   position: relative;
   overflow: hidden;
 }
 
+/* Pearl Accent at the top center of bento cards and hero */
+.card-hero::before,
+.card-premium::before {
+  content: '';
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffffff 0%, #FAF8F5 25%, #EFECE6 65%, #9D8465 100%);
+  box-shadow: 
+    inset 0.5px 0.5px 1px rgba(255, 255, 255, 0.95),
+    1px 2px 3px rgba(44, 40, 36, 0.12);
+  z-index: 10;
+}
+
 .card-premium:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(44, 40, 36, 0.12);
+  box-shadow: 0 12px 32px rgba(44, 40, 36, 0.08);
 }
 
 .card-light {
-  background-color: #fcfbf9;
-  border: 1px solid rgba(44, 40, 36, 0.3);
-  outline: 1px solid rgba(44, 40, 36, 0.3);
+  background-color: #ffffff; /* Plaster White Card */
+  border: 1px solid var(--gold-light);
+  outline: 1px solid rgba(198, 167, 123, 0.25);
   outline-offset: -8px;
   color: var(--charcoal);
 }
 
 .card-dark {
-  background-color: var(--dark-card);
-  border: 1px solid rgba(198, 167, 123, 0.15);
-  color: #fcfbf9;
+  background-color: var(--dark-card); /* Deep Bronze-Charcoal Card */
+  border: 1px solid rgba(198, 167, 123, 0.25);
+  outline: 1px solid rgba(198, 167, 123, 0.15);
+  outline-offset: -8px;
+  color: #ffffff;
 }
 
 .section-icon {
@@ -1917,16 +2009,16 @@ body {
   bottom: 1.5rem;
   width: 220px;
   height: 150px;
-  background-color: #ebdcb9; /* Inner liner */
+  background-color: #E6E0D4; /* Inner liner */
   border-radius: 0 0 6px 6px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 6px 20px rgba(44,40,36,0.1);
   perspective: 800px;
 }
 
 .grid-envelope-inner {
   position: absolute;
   top: 0; left: 0; width: 100%; height: 100%;
-  background-color: #dfcdab;
+  background-color: #DFD9CD;
   border-radius: 0 0 6px 6px;
   z-index: 1;
 }
@@ -1934,18 +2026,18 @@ body {
 .grid-envelope-left {
   position: absolute;
   top: 0; left: 0; width: 0; height: 0;
-  border-left: 110px solid #eae1cd;
+  border-left: 110px solid #FAF8F5;
   border-top: 75px solid transparent;
-  border-bottom: 75px solid #eae1cd;
+  border-bottom: 75px solid #FAF8F5;
   z-index: 3;
 }
 
 .grid-envelope-right {
   position: absolute;
   top: 0; right: 0; width: 0; height: 0;
-  border-right: 110px solid #eae1cd;
+  border-right: 110px solid #FAF8F5;
   border-top: 75px solid transparent;
-  border-bottom: 75px solid #eae1cd;
+  border-bottom: 75px solid #FAF8F5;
   z-index: 3;
 }
 
@@ -1954,7 +2046,7 @@ body {
   bottom: 0; left: 0; width: 0; height: 0;
   border-left: 110px solid transparent;
   border-right: 110px solid transparent;
-  border-bottom: 75px solid #dfd8c2;
+  border-bottom: 75px solid #E5DFD4;
   z-index: 4;
 }
 
@@ -1963,7 +2055,7 @@ body {
   top: 0; left: 0; width: 0; height: 0;
   border-left: 110px solid transparent;
   border-right: 110px solid transparent;
-  border-top: 75px solid #eae1cd;
+  border-top: 75px solid #FAF8F5;
   transform-origin: top;
   transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 5;
@@ -1978,9 +2070,12 @@ body {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: #ffffff;
-  border: 1px solid var(--gold);
-  box-shadow: 0 3px 10px rgba(50, 45, 41, 0.15);
+  background: radial-gradient(circle at 35% 35%, #ffffff 0%, #FAF8F5 30%, #EFECE6 70%, #DCD8D0 100%);
+  border: none;
+  box-shadow: 
+    inset 1px 1px 2px rgba(255, 255, 255, 0.95),
+    inset -1px -1px 3px rgba(44, 40, 36, 0.15),
+    0 3px 10px rgba(50, 45, 41, 0.15);
   cursor: pointer;
   z-index: 6;
   display: flex;
@@ -2184,8 +2279,9 @@ body {
   gap: 1rem;
   padding: 1.25rem;
   border-radius: 12px;
-  background-color: rgba(255, 255, 255, 0.45);
-  border: 1px solid rgba(198, 167, 123, 0.2);
+  background-color: rgba(250, 248, 245, 0.8);
+  border: 1px solid rgba(198, 167, 123, 0.35);
+  box-shadow: 0 4px 15px rgba(44, 40, 36, 0.03);
 }
 
 .night-badge {
@@ -2360,7 +2456,7 @@ body {
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--cream-bg);
+  color: var(--gold-dark);
   font-family: var(--font-title);
   font-size: 0.7rem;
   font-weight: 500;
