@@ -12,6 +12,10 @@ const SONGS_FILE = path.join(__dirname, 'songs.json');
 
 app.use(cors());
 app.use(express.json());
+app.use((req, res, next) => {
+  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+  next();
+});
 app.use(express.static(path.join(__dirname)));
 
 // Ensure files exist on startup
@@ -168,6 +172,17 @@ app.get('/api/admin/rsvps', (req, res) => {
     return res.json({ summary, guests: confirmedList });
   } catch (error) {
     console.error('Error in admin summary:', error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Admin Route to view all song suggestions
+app.get('/api/admin/songs', (req, res) => {
+  try {
+    const songs = JSON.parse(fs.readFileSync(SONGS_FILE, 'utf8') || '[]');
+    return res.json(songs);
+  } catch (error) {
+    console.error('Error fetching songs for admin:', error);
     return res.status(500).json({ error: 'Internal server error' });
   }
 });

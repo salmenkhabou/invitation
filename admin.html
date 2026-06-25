@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Organisateur - Rihem & Mohamed</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpg" href="logo.jpg"/>
+
+  <!-- Google Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link crossorigin href="https://fonts.gstatic.com" rel="preconnect"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600;700&family=Pinyon+Script&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root {
+      --cream-bg: #fdfaf5;
+      --sand-bg: #f5f0e6;
+      --charcoal: #2c2824;
+      --gold: #c6a77b;
+      --gold-dark: #997c55;
+      --gold-light: #e5d4be;
+      --white-card: #ffffff;
+      --dark-card: #3a423b;
+      --font-serif: 'Playfair Display', serif;
+      --font-sans: 'Montserrat', sans-serif;
+      --font-title: 'Cinzel', serif;
+      --font-script: 'Pinyon Script', cursive;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-serif);
+      background-image: linear-gradient(rgba(245, 240, 230, 0.88), rgba(245, 240, 230, 0.88)), url('background.png');
+      background-attachment: fixed;
+      background-size: cover;
+      background-position: center;
+      color: var(--charcoal);
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 2rem;
+      border-radius: 16px;
+      border: 1px solid rgba(198, 167, 123, 0.3);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+    }
+
+    .admin-title {
+      font-family: var(--font-title);
+      font-size: 1.8rem;
+      letter-spacing: 0.1em;
+      color: var(--gold-dark);
+      text-transform: uppercase;
+      margin-bottom: 0.25rem;
+    }
+
+    .admin-subtitle {
+      font-family: var(--font-script);
+      font-size: 2.2rem;
+      color: var(--charcoal);
+      margin-bottom: 0.5rem;
+    }
+
+    .admin-tag {
+      font-family: var(--font-sans);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.35em;
+      color: #777;
+      text-transform: uppercase;
+    }
+
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(198, 167, 123, 0.25);
+      border-radius: 14px;
+      padding: 1.5rem;
+      text-align: center;
+      box-shadow: 0 6px 20px rgba(44, 40, 36, 0.04);
+      transition: transform 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .stat-val {
+      font-family: var(--font-title);
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--gold-dark);
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-lbl {
+      font-family: var(--font-sans);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #666;
+    }
+
+    /* Tabs Layout */
+    .tabs-header {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tab-btn {
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.85rem 1.75rem;
+      border-radius: 12px;
+      cursor: pointer;
+      border: 1px solid rgba(198, 167, 123, 0.35);
+      background-color: rgba(255, 255, 255, 0.6);
+      color: var(--charcoal);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .tab-btn.active {
+      background-color: var(--gold-dark);
+      border-color: var(--gold-dark);
+      color: #ffffff;
+      box-shadow: 0 4px 15px rgba(153, 124, 85, 0.25);
+    }
+
+    .tab-content {
+      display: none;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(198, 167, 123, 0.3);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Filters & Controls */
+    .controls-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .search-input-wrapper {
+      position: relative;
+      flex: 1;
+      max-width: 320px;
+    }
+
+    .search-input-wrapper input {
+      width: 100%;
+      border: 1px solid rgba(198, 167, 123, 0.35);
+      background-color: #ffffff;
+      color: var(--charcoal);
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      padding: 0.65rem 1rem 0.65rem 2.2rem;
+      border-radius: 10px;
+      outline: none;
+    }
+
+    .search-input-wrapper span {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.1rem;
+      color: var(--gold-dark);
+    }
+
+    /* Table Styles */
+    .table-container {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+    }
+
+    th {
+      font-family: var(--font-sans);
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold-dark);
+      padding: 1rem;
+      border-bottom: 2px solid rgba(198, 167, 123, 0.25);
+    }
+
+    td {
+      padding: 1rem;
+      border-bottom: 1px solid rgba(198, 167, 123, 0.15);
+      color: var(--charcoal);
+      line-height: 1.5;
+    }
+
+    tr:hover td {
+      background-color: rgba(198, 167, 123, 0.04);
+    }
+
+    /* Status Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      font-weight: 700;
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.25rem 0.6rem;
+      border-radius: 20px;
+    }
+
+    .badge-confirmed {
+      background-color: rgba(198, 167, 123, 0.15);
+      color: var(--gold-dark);
+    }
+
+    .badge-declined {
+      background-color: rgba(239, 68, 68, 0.1);
+      color: #ef4444;
+    }
+
+    .badge-pending {
+      background-color: rgba(100, 116, 139, 0.1);
+      color: #64748b;
+    }
+
+    .message-text {
+      font-style: italic;
+      color: #555;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem 0;
+      color: #888;
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+    }
+
+    .empty-state span {
+      font-size: 3rem;
+      color: var(--gold-light);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 1rem 0.5rem;
+      }
+      .stat-card {
+        padding: 1rem;
+      }
+      .tab-content {
+        padding: 1rem;
+      }
+      .controls-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .search-input-wrapper {
+        max-width: none;
+      }
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <header>
+      <h1 class="admin-title">Rihem & Mohamed</h1>
+      <p class="admin-subtitle">Tableau de Bord</p>
+      <div class="admin-tag">Organisateur & RSVPs</div>
+    </header>
+
+    <!-- Stats summary row -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div id="stat-total-inv" class="stat-val">-</div>
+        <div class="stat-lbl">Invitations</div>
+      </div>
+      <div class="stat-card">
+        <div id="stat-replied" class="stat-val">-</div>
+        <div class="stat-lbl">Réponses</div>
+      </div>
+      <div class="stat-card">
+        <div id="stat-attending" class="stat-val">-</div>
+        <div class="stat-lbl">Présents</div>
+      </div>
+      <div class="stat-card">
+        <div id="stat-songs" class="stat-val">-</div>
+        <div class="stat-lbl">Chansons</div>
+      </div>
+    </div>
+
+    <!-- Tabs switcher -->
+    <div class="tabs-header">
+      <button class="tab-btn active" onclick="switchTab('rsvps')">
+        <span class="material-symbols-outlined">how_to_reg</span> Invités & RSVPs
+      </button>
+      <button class="tab-btn" onclick="switchTab('songs')">
+        <span class="material-symbols-outlined">playlist_play</span> Playlist
+      </button>
+    </div>
+
+    <!-- Tab RSVPs -->
+    <div id="tab-rsvps" class="tab-content active">
+      <div class="controls-row">
+        <div class="search-input-wrapper">
+          <span class="material-symbols-outlined">search</span>
+          <input type="text" id="guest-search" placeholder="Rechercher un invité..." oninput="filterGuests()"/>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table id="rsvps-table">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Statut</th>
+              <th>Nombre</th>
+              <th>Diet/Allergies</th>
+              <th>Message</th>
+            </tr>
+          </thead>
+          <tbody id="rsvps-tbody">
+            <!-- Populated via javascript -->
+          </tbody>
+        </table>
+        <div id="rsvps-empty" class="empty-state hidden">
+          <span class="material-symbols-outlined">group_off</span>
+          Aucun invité trouvé.
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab Songs -->
+    <div id="tab-songs" class="tab-content">
+      <div class="table-container">
+        <table id="songs-table">
+          <thead>
+            <tr>
+              <th>Chanson</th>
+              <th>Artiste</th>
+              <th>Suggéré par</th>
+              <th>Date de suggestion</th>
+            </tr>
+          </thead>
+          <tbody id="songs-tbody">
+            <!-- Populated via javascript -->
+          </tbody>
+        </table>
+        <div id="songs-empty" class="empty-state hidden">
+          <span class="material-symbols-outlined">music_off</span>
+          Aucune suggestion de chanson pour le moment.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    let guestsData = [];
+    let songsData = [];
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+      if (tabId === 'rsvps') {
+        document.querySelectorAll('.tab-btn')[0].classList.add('active');
+        document.getElementById('tab-rsvps').classList.add('active');
+      } else {
+        document.querySelectorAll('.tab-btn')[1].classList.add('active');
+        document.getElementById('tab-songs').classList.add('active');
+      }
+    }
+
+    function fetchData() {
+      // 1. Fetch RSVPs & summary
+      fetch('/api/admin/rsvps')
+        .then(res => res.json())
+        .then(data => {
+          guestsData = data.guests || [];
+          
+          // Populate summary metrics
+          const summary = data.summary || {};
+          document.getElementById('stat-total-inv').textContent = summary.totalInvitations || 0;
+          document.getElementById('stat-replied').textContent = summary.repliedCount || 0;
+          document.getElementById('stat-attending').textContent = `${summary.confirmedAttending || 0} pers`;
+          
+          renderGuests(guestsData);
+        })
+        .catch(err => console.error("Error fetching RSVPs:", err));
+
+      // 2. Fetch Playlist suggestions
+      fetch('/api/admin/songs')
+        .then(res => res.json())
+        .then(data => {
+          songsData = data || [];
+          document.getElementById('stat-songs').textContent = songsData.length;
+          renderSongs(songsData);
+        })
+        .catch(err => console.error("Error fetching songs:", err));
+    }
+
+    function renderGuests(guests) {
+      const tbody = document.getElementById('rsvps-tbody');
+      const emptyState = document.getElementById('rsvps-empty');
+      tbody.innerHTML = '';
+
+      if (guests.length === 0) {
+        emptyState.classList.remove('hidden');
+        return;
+      }
+      emptyState.classList.add('hidden');
+
+      // Sort guests: confirmed first
+      const sorted = [...guests].sort((a, b) => {
+        if (a.status === b.status) return a.name.localeCompare(b.name);
+        return a.status === 'confirmed' ? -1 : 1;
+      });
+
+      sorted.forEach(g => {
+        const tr = document.createElement('tr');
+        
+        let statusBadge = '';
+        if (g.status === 'confirmed') {
+          statusBadge = `<span class="badge badge-confirmed">Présent</span>`;
+        } else if (g.status === 'declined') {
+          statusBadge = `<span class="badge badge-declined">Absent</span>`;
+        } else {
+          statusBadge = `<span class="badge badge-pending">En attente</span>`;
+        }
+
+        tr.innerHTML = `
+          <td><strong>${escapeHtml(g.name)}</strong></td>
+          <td>${statusBadge}</td>
+          <td>${g.status === 'confirmed' ? `${g.confirmedGuests} / ${g.maxGuests}` : `0 / ${g.maxGuests}`}</td>
+          <td>${g.dietary ? escapeHtml(g.dietary) : '-'}</td>
+          <td class="message-text">${g.message ? `"${escapeHtml(g.message)}"` : '-'}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function filterGuests() {
+      const query = document.getElementById('guest-search').value.toLowerCase().trim();
+      const filtered = guestsData.filter(g => g.name.toLowerCase().includes(query));
+      renderGuests(filtered);
+    }
+
+    function renderSongs(songs) {
+      const tbody = document.getElementById('songs-tbody');
+      const emptyState = document.getElementById('songs-empty');
+      tbody.innerHTML = '';
+
+      if (songs.length === 0) {
+        emptyState.classList.remove('hidden');
+        return;
+      }
+      emptyState.classList.add('hidden');
+
+      // Sort songs: newest first
+      const sorted = [...songs].sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt));
+
+      sorted.forEach(s => {
+        const tr = document.createElement('tr');
+        const formattedDate = new Date(s.submittedAt).toLocaleDateString('fr-FR', {
+          day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit'
+        });
+
+        tr.innerHTML = `
+          <td><strong>"${escapeHtml(s.title)}"</strong></td>
+          <td>${s.artist ? escapeHtml(s.artist) : '-'}</td>
+          <td>${escapeHtml(s.name)}</td>
+          <td>${formattedDate}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Run fetch on load
+    fetchData();
+  </script>
+</body>
+</html>

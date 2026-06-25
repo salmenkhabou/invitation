@@ -100,35 +100,112 @@ document.addEventListener('DOMContentLoaded', () => {
   const songSubmitBtn = document.getElementById('song-submit-btn');
   const songResponse = document.getElementById('song-response');
   
+  // Card Deck Buttons
+  const deckRsvpBtn = document.getElementById('deck-rsvp-btn');
+  const deckMapBtn = document.getElementById('deck-map-btn');
+  const deckEnterBtn = document.getElementById('deck-enter-btn');
+  
   let isPlaying = false;
   let activeGuest = null;
 
   // ==========================================================================
   // 3. Envelope Animation & Site Reveal
   // ==========================================================================
+  
+  // Open envelope on seal click (reveal fanned-out interactive cards)
   waxSealBtn.addEventListener('click', () => {
-    // 1. Play envelope rotation & card slide CSS
     envelope.classList.add('open');
     playMusic();
-    
-    // 2. Translate scene elements out and display main invitation
-    setTimeout(() => {
-      envelopeWrapper.style.opacity = '0';
-      envelopeWrapper.style.pointerEvents = 'none';
-      
-      mainContent.classList.add('visible');
-      
-      // Trigger scroll reveals for cards within viewport immediately
-      setTimeout(() => {
-        triggerScrollReveals();
-      }, 100);
-      
-      // Remove wrapper from screen space completely
-      setTimeout(() => {
-        envelopeWrapper.style.display = 'none';
-      }, 1000);
-    }, 1600);
   });
+
+  // Action: Enter the main scrolling invitation website
+  function enterSite() {
+    envelopeWrapper.style.opacity = '0';
+    envelopeWrapper.style.pointerEvents = 'none';
+    
+    mainContent.classList.add('visible');
+    
+    // Trigger scroll reveals for cards within viewport immediately
+    setTimeout(() => {
+      triggerScrollReveals();
+    }, 100);
+    
+    // Remove wrapper from screen space completely
+    setTimeout(() => {
+      envelopeWrapper.style.display = 'none';
+    }, 1000);
+  }
+
+  // Wire fanned cards interactive buttons
+  if (deckEnterBtn) {
+    deckEnterBtn.addEventListener('click', enterSite);
+  }
+  
+  if (deckMapBtn) {
+    deckMapBtn.addEventListener('click', () => {
+      openModal(mapModal);
+    });
+  }
+
+  if (deckRsvpBtn) {
+    deckRsvpBtn.addEventListener('click', () => {
+      if (activeGuest) {
+        // If guest is preloaded from URL, bypass search stage
+        selectGuest(activeGuest);
+        openModal(rsvpModal);
+      } else {
+        resetRsvpForm();
+        openModal(rsvpModal);
+      }
+    });
+  }
+
+  // URL Query Parameters Guest Auto-loader
+  function checkUrlForGuest() {
+    const params = new URLSearchParams(window.location.search);
+    const guestQuery = params.get('guest') || params.get('g');
+    
+    if (guestQuery) {
+      fetch(`/api/guests/search?name=${encodeURIComponent(guestQuery)}`)
+        .then(res => {
+          if (!res.ok) throw new Error();
+          return res.json();
+        })
+        .then(matches => {
+          if (matches && matches.length > 0) {
+            // Take first matching guest
+            const guest = matches[0];
+            activeGuest = guest;
+            
+            const rsvpTitle = document.getElementById('deck-rsvp-title');
+            const rsvpSubtitle = document.getElementById('deck-rsvp-subtitle');
+            
+            if (rsvpTitle) {
+              rsvpTitle.textContent = guest.name;
+              rsvpTitle.style.fontSize = '0.6rem';
+            }
+            if (rsvpSubtitle) {
+              rsvpSubtitle.textContent = `Accès : ${guest.maxGuests} pers.`;
+            }
+            if (deckRsvpBtn) {
+              if (guest.status === 'confirmed') {
+                deckRsvpBtn.textContent = 'Modif. Réponse';
+              } else if (guest.status === 'declined') {
+                deckRsvpBtn.textContent = 'Modif. Réponse';
+              } else {
+                deckRsvpBtn.textContent = 'Répondre';
+              }
+            }
+          }
+        })
+        .catch(err => {
+          console.error("Error auto-loading guest details:", err);
+        });
+    }
+  }
+
+  // Run on page initialization
+  checkUrlForGuest();
 
   // Grid Envelope (Save the Date) Interaction
   const gridWaxSealBtn = document.getElementById('grid-wax-seal-btn');
@@ -509,6 +586,12 @@ document.addEventListener('DOMContentLoaded', () => {
       successStage.classList.remove('hidden');
       
       const updatedGuest = data.guest;
+      activeGuest = updatedGuest; // Update active state locally
+      
+      // Update deck card RSVP button text to reflect updated state
+      if (deckRsvpBtn) {
+        deckRsvpBtn.textContent = 'Modif. Réponse';
+      }
       
       document.getElementById('rsvp-success-thank-you').textContent = `Merci ${updatedGuest.name} ! Votre réponse a bien été prise en compte.`;
       

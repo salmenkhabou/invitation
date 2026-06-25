@@ -30,47 +30,94 @@
   <!-- Ambient Shadow Overlay for branch shadows effect -->
   <div class="branch-shadow"></div>
 
-  <!-- Interactive 3D Envelope Wrapper -->
+  <!-- Interactive 3D Envelope Wrapper (Desk Surface Scene) -->
   <div id="envelope-wrapper" class="envelope-wrapper">
-    <div class="envelope-intro-text">
-      <span class="material-symbols-outlined bounce-icon">mail</span>
-      <h2>Notre Invitation</h2>
-      <p>NOUS NOUS MARIONS !</p>
-    </div>
+    <div class="desk-container">
+      
+      <!-- Scattered Secondary Envelopes (for composition depth) -->
+      <div class="scattered-envelope env-top-left"></div>
+      <div class="scattered-envelope env-bottom-right">
+        <span class="embossed-text">Invitation de Mariage</span>
+      </div>
+      
+      <!-- Wax Stamp Handle Decoration -->
+      <div class="wax-stamp-handle"></div>
 
-    <!-- 3D Envelope Container inside phone mockup frame -->
-    <div class="envelope-frame">
-      <div id="envelope" class="envelope">
-        <!-- Inside lining -->
-        <div class="envelope-inner"></div>
-        
-        <!-- Flaps -->
-        <div class="envelope-left"></div>
-        <div class="envelope-right"></div>
-        <div class="envelope-bottom"></div>
-        <div class="envelope-top-flap"></div>
-        
-        <!-- Wax Seal -->
-        <button id="wax-seal-btn" class="wax-seal" aria-label="Ouvrir l'enveloppe">
-          <img src="logo.jpg" alt="Sceau RM" class="wax-seal-img"/>
-        </button>
+      <!-- Main Envelope Container -->
+      <div class="main-envelope-container">
+        <div id="envelope" class="envelope">
+          <!-- Inside lining -->
+          <div class="envelope-inner"></div>
+          
+          <!-- Flaps -->
+          <div class="envelope-left"></div>
+          <div class="envelope-right"></div>
+          <div class="envelope-bottom"></div>
+          <div class="envelope-top-flap"></div>
+          
+          <!-- Wax Seal -->
+          <button id="wax-seal-btn" class="wax-seal" aria-label="Ouvrir l'enveloppe">
+            <!-- Custom engraved SVG crest for authentic embossing -->
+            <svg class="seal-crest" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <path d="M 30,50 C 27,40 31,30 40,25 C 37,33 34,42 34,50 C 34,58 37,67 40,75 C 31,70 27,60 30,50 Z" fill="currentColor" opacity="0.45"/>
+              <path d="M 70,50 C 73,40 69,30 60,25 C 63,33 66,42 66,50 C 66,58 63,67 60,75 C 69,70 73,60 70,50 Z" fill="currentColor" opacity="0.45"/>
+              <text x="50" y="55" font-family="'Pinyon Script', cursive, serif" font-size="28" text-anchor="middle" fill="currentColor" font-weight="bold">RM</text>
+              <circle cx="50" cy="48" r="38" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="3 3" opacity="0.3"/>
+            </svg>
+          </button>
 
-        <!-- Invitation Card (slides out upwards) -->
-        <div class="envelope-card">
-          <div class="card-inner">
-            <h3 class="card-title-script">Rihem & Mohamed</h3>
-            <p class="card-sub">SE MARIENT</p>
-            <div class="card-divider"></div>
-            <p class="card-italic">Réservez la Date</p>
-            <p class="card-date">11 JUILLET</p>
-            <p class="card-location">AURORA • SFAX, TUNISIE</p>
+          <!-- Invitation Card Deck (Fanned Layout) -->
+          <div class="envelope-card-deck">
+            
+            <!-- 1. RSVP / Pase Card (Translucent paper style) -->
+            <div id="deck-card-rsvp" class="deck-card card-rsvp">
+              <div class="deck-card-inner">
+                <span class="material-symbols-outlined card-icon">how_to_reg</span>
+                <h4 id="deck-rsvp-title" class="deck-card-title">Invitation</h4>
+                <p id="deck-rsvp-subtitle" class="deck-card-text">Confirmer votre présence</p>
+                <div class="deck-card-divider"></div>
+                <button id="deck-rsvp-btn" class="deck-card-btn btn-rsvp-action">
+                  Confirmer
+                </button>
+              </div>
+            </div>
+
+            <!-- 2. Details / Dress Code Card (Olive-Green style) -->
+            <div id="deck-card-details" class="deck-card card-details">
+              <div class="deck-card-inner">
+                <span class="material-symbols-outlined card-icon">apparel</span>
+                <h4 class="deck-card-title">Tenue</h4>
+                <p class="deck-card-accent">FORMELLE</p>
+                <div class="deck-card-divider"></div>
+                <p class="deck-card-text">Réception à 19h00<br>Hôtel Aurora, Sfax</p>
+                <button id="deck-map-btn" class="deck-card-btn btn-map-action">
+                  Localisation
+                </button>
+              </div>
+            </div>
+
+            <!-- 3. Main Invitation Card (Cream/White style) -->
+            <div id="deck-card-main" class="deck-card card-main">
+              <div class="deck-card-inner">
+                <div class="deck-monogram">RM</div>
+                <h3 class="deck-couple-names">Rihem & Mohamed</h3>
+                <p class="deck-wedding-tag">SE MARIENT</p>
+                <div class="deck-card-divider-luxury"></div>
+                <p class="deck-wedding-date">11 JUILLET 2026</p>
+                <p class="deck-wedding-location">SFAX, TUNISIE</p>
+                <button id="deck-enter-btn" class="deck-card-btn btn-enter-action">
+                  Découvrir le Site
+                </button>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="envelope-instruction">
-      Cliquez sur le sceau pour ouvrir l'enveloppe
+      
+      <div class="envelope-instruction">
+        Cliquez sur le sceau pour ouvrir l'invitation
+      </div>
     </div>
   </div>
 
@@ -174,6 +221,53 @@
           <span class="material-symbols-outlined">map</span> Voir l'Emplacement
         </button>
       </section>
+
+      <!-- Card 5: Gift Registry / Bank Details -->
+      <section class="card-premium card-light reveal-card">
+        <span class="material-symbols-outlined section-icon">redeem</span>
+        <h2 class="section-title">Liste de Mariage / RIB</h2>
+        <p class="section-subtitle">PARTICIPATION</p>
+        <p class="gift-text">
+          Votre présence est notre plus grand cadeau. Pour ceux qui souhaitent nous accompagner dans notre projet de vie, voici nos coordonnées bancaires :
+        </p>
+        <div class="bank-details-box">
+          <p class="bank-label">RIB Bancaire (Tunisie)</p>
+          <p id="rib-code" class="bank-code">TN59 1234 5678 9012 3456 7890</p>
+          <button id="copy-rib-btn" class="btn-copy">
+            <span class="material-symbols-outlined">content_copy</span>
+            <span id="copy-btn-text">Copier le RIB</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Card 6: Playlist & Song Suggestion -->
+      <section class="card-premium card-light reveal-card">
+        <span class="material-symbols-outlined section-icon">music_note</span>
+        <h2 class="section-title">Play-list Participative</h2>
+        <p class="section-subtitle">SUGGÉRER UNE CHANSON</p>
+        <p class="song-intro">
+          Aidez-nous à faire danser tout le monde en nous proposant vos morceaux favoris :
+        </p>
+        <form id="song-form" class="luxury-form">
+          <div class="form-group">
+            <label for="song-guest-name">Votre Nom</label>
+            <input type="text" id="song-guest-name" placeholder="Ex: Salmen Khabou" required />
+          </div>
+          <div class="form-group">
+            <label for="song-title">Titre de la Chanson</label>
+            <input type="text" id="song-title" placeholder="Ex: Ya Rayah" required />
+          </div>
+          <div class="form-group">
+            <label for="song-artist">Artiste (facultatif)</label>
+            <input type="text" id="song-artist" placeholder="Ex: Dahmane El Harrachi" />
+          </div>
+          <button type="submit" id="song-submit-btn" class="btn-luxury btn-gold w-full">
+            <span class="material-symbols-outlined">playlist_add</span> Suggérer
+          </button>
+        </form>
+        <div id="song-response" class="form-response success hidden"></div>
+      </section>
+
 
       <!-- Card 4: Live Countdown (Dark Premium Theme) -->
       <section class="card-premium card-dark reveal-card col-span-2">

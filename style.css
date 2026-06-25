@@ -82,7 +82,7 @@ body {
 }
 
 /* ==========================================================================
-   1. Interactive 3D Envelope Styles (Mobile Mockup Layout)
+   1. Interactive 3D Envelope Styles (Desk Layout Scene)
    ========================================================================== */
 
 .envelope-wrapper {
@@ -91,88 +91,120 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: linear-gradient(rgba(223, 220, 212, 0.4), rgba(223, 220, 212, 0.4)), url('background.png');
+  background-image: linear-gradient(rgba(23, 24, 28, 0.55), rgba(23, 24, 28, 0.55)), url('background.png');
   background-size: cover;
   background-position: center;
   z-index: 1000;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), visibility 1s ease;
-}
-
-.envelope-intro-text {
-  text-align: center;
-  margin-bottom: 2rem;
-  padding: 0 1.5rem;
-}
-
-.bounce-icon {
-  font-size: 3rem !important;
-  color: var(--gold-dark);
-  animation: bounce-slow 2.5s infinite;
-}
-
-.envelope-intro-text h2 {
-  font-family: var(--font-title);
-  font-size: 1.8rem;
-  font-weight: 400;
-  letter-spacing: 0.15em;
-  color: var(--charcoal);
-  margin-top: 0.5rem;
-}
-
-.envelope-intro-text p {
-  font-family: var(--font-sans);
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.25em;
-  color: var(--gold-dark);
-  margin-top: 0.25rem;
-}
-
-/* Mobile viewport frame mockup */
-.envelope-frame {
-  position: relative;
-  width: 380px;
-  height: 520px;
-  background-color: var(--cream-bg);
-  box-shadow: 0 30px 60px rgba(44, 40, 36, 0.3), 0 0 0 10px #ffffff;
-  border-radius: 40px;
-  display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  perspective: 1200px;
+  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 1.2s ease;
 }
 
-@media (max-width: 420px) {
-  .envelope-frame {
-    width: 320px;
-    height: 440px;
-    border-radius: 30px;
-    box-shadow: 0 20px 40px rgba(44, 40, 36, 0.25), 0 0 0 6px #ffffff;
-  }
+/* Container keeping all elements scaled and centered */
+.desk-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 1400px;
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease;
+}
+
+/* Scattered background envelopes for rich scene composition */
+.scattered-envelope {
+  position: absolute;
+  background-color: #43524b; /* Muted sage spruce green */
+  background-image: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.08) 100%);
+  border-radius: 4px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+  z-index: 10;
+  box-sizing: border-box;
+}
+
+.env-top-left {
+  top: -60px;
+  left: -80px;
+  width: 320px;
+  height: 220px;
+  transform: rotate(-25deg) translateZ(-50px);
+  opacity: 0.65;
+}
+
+.env-bottom-right {
+  bottom: -60px;
+  right: -80px;
+  width: 340px;
+  height: 240px;
+  transform: rotate(18deg) translateZ(-40px);
+  opacity: 0.75;
+  display: flex;
+  align-items: flex-end;
+  padding: 30px;
+}
+
+.env-bottom-right .embossed-text {
+  font-family: var(--font-title);
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.05);
+  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.05), -1px -1px 0px rgba(0,0,0,0.4);
+  transform: rotate(-18deg);
+  text-transform: uppercase;
+}
+
+/* Wood-turned Wax Stamp Handle decoration */
+.wax-stamp-handle {
+  position: absolute;
+  top: 15%;
+  right: 10%;
+  width: 130px;
+  height: 36px;
+  background: linear-gradient(to bottom, #502e1a, #6c4128 20%, #462512 80%, #240d04 100%);
+  border-radius: 18px 4px 4px 18px;
+  transform: rotate(-35deg) translateZ(-20px);
+  box-shadow: 5px 8px 18px rgba(0, 0, 0, 0.5);
+  z-index: 15;
+  pointer-events: none;
+}
+
+.wax-stamp-handle::after {
+  content: '';
+  position: absolute;
+  right: -8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 28px;
+  background: linear-gradient(to bottom, #d4af37, #aa7c11, #d4af37);
+  border-radius: 2px 6px 6px 2px;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+}
+
+/* Main Interactive Envelope Container */
+.main-envelope-container {
+  position: relative;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 340px;
+  height: 240px;
 }
 
 .envelope {
   position: relative;
-  width: 280px;
-  height: 190px;
+  width: 320px;
+  height: 220px;
   background-color: #ebdcb9; /* Envelope inner pocket liner */
-  border-radius: 0 0 8px 8px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
-  perspective: 1000px;
-  margin-top: 50px;
-}
-
-@media (max-width: 420px) {
-  .envelope {
-    width: 240px;
-    height: 160px;
-    margin-top: 40px;
-  }
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+  perspective: 1200px;
 }
 
 /* Envelope Flaps */
@@ -180,224 +212,438 @@ body {
   position: absolute;
   top: 0; left: 0; width: 100%; height: 100%;
   background-color: #dfcdab;
-  border-radius: 0 0 8px 8px;
-  z-index: 1;
+  border-radius: 0 0 4px 4px;
+  z-index: 10;
 }
 
 .envelope-left {
   position: absolute;
   top: 0; left: 0; width: 0; height: 0;
-  border-left: 140px solid #eae1cd;
-  border-top: 95px solid transparent;
-  border-bottom: 95px solid #eae1cd;
-  z-index: 3;
+  border-left: 160px solid #f2ece0;
+  border-top: 110px solid transparent;
+  border-bottom: 110px solid #f2ece0;
+  z-index: 30;
+  border-radius: 0 0 0 4px;
 }
 
 .envelope-right {
   position: absolute;
   top: 0; right: 0; width: 0; height: 0;
-  border-right: 140px solid #eae1cd;
-  border-top: 95px solid transparent;
-  border-bottom: 95px solid #eae1cd;
-  z-index: 3;
+  border-right: 160px solid #f2ece0;
+  border-top: 110px solid transparent;
+  border-bottom: 110px solid #f2ece0;
+  z-index: 30;
+  border-radius: 0 0 4px 0;
 }
 
 .envelope-bottom {
   position: absolute;
   bottom: 0; left: 0; width: 0; height: 0;
-  border-left: 140px solid transparent;
-  border-right: 140px solid transparent;
-  border-bottom: 95px solid #dfd8c2;
-  z-index: 4;
+  border-left: 160px solid transparent;
+  border-right: 160px solid transparent;
+  border-bottom: 110px solid #e3dbcb;
+  z-index: 40;
+  border-radius: 0 0 4px 4px;
 }
 
 .envelope-top-flap {
   position: absolute;
   top: 0; left: 0; width: 0; height: 0;
-  border-left: 140px solid transparent;
-  border-right: 140px solid transparent;
-  border-top: 95px solid #eae1cd;
+  border-left: 160px solid transparent;
+  border-right: 160px solid transparent;
+  border-top: 110px solid #f2ece0;
   transform-origin: top;
-  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 5;
+  transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 50;
+  filter: drop-shadow(0 4px 5px rgba(0,0,0,0.1));
 }
 
-@media (max-width: 420px) {
-  .envelope-left {
-    border-left-width: 120px;
-    border-top-width: 80px;
-    border-bottom-width: 80px;
-  }
-  .envelope-right {
-    border-right-width: 120px;
-    border-top-width: 80px;
-    border-bottom-width: 80px;
-  }
-  .envelope-bottom {
-    border-left-width: 120px;
-    border-right-width: 120px;
-    border-bottom-width: 80px;
-  }
-  .envelope-top-flap {
-    border-left-width: 120px;
-    border-right-width: 120px;
-    border-top-width: 80px;
-  }
-}
-
-/* Wax Seal Monogram */
+/* Metallic Copper/Bronze Organic Wax Seal */
 .wax-seal {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  background: #ffffff;
-  border: 1.5px solid var(--gold);
-  box-shadow: 0 4px 15px rgba(50, 45, 41, 0.18);
+  transform: translate(-50%, -50%) scale(1);
+  width: 60px;
+  height: 60px;
+  border: none;
+  background: radial-gradient(circle at 35% 35%, #b27344 0%, #8c4e25 50%, #5c2d0f 100%);
+  border-radius: 48% 41% 47% 43% / 42% 47% 41% 48%; /* Organic organic edge shape */
+  box-shadow: 
+    inset 1px 1px 2px rgba(255, 255, 255, 0.35),
+    inset -2px -2px 4px rgba(0, 0, 0, 0.5),
+    0 5px 15px rgba(0, 0, 0, 0.35);
   cursor: pointer;
-  z-index: 6;
+  z-index: 60;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4px;
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
-  overflow: hidden;
+  color: #4a2107; /* Engraved look */
+  text-shadow: -1px -1px 0px rgba(0, 0, 0, 0.55), 1px 1px 0px rgba(255, 255, 255, 0.15);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, opacity 0.5s ease;
 }
 
 .wax-seal:hover {
-  transform: translate(-50%, -50%) scale(1.12);
-  box-shadow: 0 6px 20px rgba(198, 167, 123, 0.35);
+  transform: translate(-50%, -50%) scale(1.08);
+  box-shadow: 
+    inset 1px 1px 2px rgba(255, 255, 255, 0.4),
+    inset -2px -2px 4px rgba(0, 0, 0, 0.4),
+    0 8px 20px rgba(178, 115, 68, 0.4);
 }
 
-.wax-seal-img {
-  width: 90%;
-  height: 90%;
-  object-contain: fit;
-  border-radius: 50%;
+.wax-seal:active {
+  transform: translate(-50%, -50%) scale(0.95);
+}
+
+.seal-crest {
+  width: 85%;
+  height: 85%;
+  pointer-events: none;
 }
 
 .wax-seal::after {
   content: '';
   position: absolute;
   top: 0; left: -150%; width: 300%; height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.45), transparent);
-  transform: skewX(-20deg);
-  animation: shine-animation 3s infinite;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+  transform: skewX(-25deg);
+  animation: shine-animation 4s infinite;
+  pointer-events: none;
 }
 
-/* Card Inside Envelope (Landscape aspect ratio) */
-.envelope-card {
+/* Invitation Card Deck (Sliding & Fanning Setup) */
+.envelope-card-deck {
   position: absolute;
   top: 10px;
   left: 10px;
-  width: 260px;
-  height: 170px;
-  background-color: var(--white-card);
-  border: 1.5px solid var(--gold);
-  border-radius: 6px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-  z-index: 2;
+  width: 300px;
+  height: 200px;
+  z-index: 20;
   transition: transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
-  padding: 12px;
+  pointer-events: none;
+}
+
+/* Individual Card Styling */
+.deck-card {
+  position: absolute;
+  border-radius: 4px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 1.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.2s ease, box-shadow 0.4s ease;
   box-sizing: border-box;
 }
 
-@media (max-width: 420px) {
-  .envelope-card {
-    top: 8px;
-    left: 8px;
-    width: 224px;
-    height: 144px;
-    padding: 8px;
-  }
-}
-
-.card-inner {
-  border: 1px solid rgba(198, 167, 123, 0.3);
+/* Common interior borders */
+.deck-card-inner {
   height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   text-align: center;
+  padding: 12px;
+  box-sizing: border-box;
 }
 
-.card-title-script {
-  font-family: var(--font-script);
-  font-size: 1.8rem;
-  line-height: 1.1;
+/* Buttons style inside deck cards */
+.deck-card-btn {
+  font-family: var(--font-sans);
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  outline: none;
+  margin-top: 8px;
+  transition: all 0.25s ease;
+}
+
+.deck-card-divider {
+  width: 20px;
+  height: 1px;
+  margin: 6px 0;
+}
+
+/* 1. RSVP Card: Horizontal translucent card */
+.card-rsvp {
+  bottom: 5px;
+  left: 20px;
+  width: 170px;
+  height: 110px;
+  background-color: rgba(253, 250, 245, 0.85);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(198, 167, 123, 0.4);
+  z-index: 25;
+  transform: translate(0, 0) scale(0.95);
+}
+
+.card-rsvp .deck-card-inner {
+  border: 1px solid rgba(198, 167, 123, 0.2);
+}
+
+.card-rsvp .card-icon {
+  font-size: 1.1rem !important;
+  color: var(--gold-dark);
+  margin-bottom: 2px;
+}
+
+.card-rsvp .deck-card-title {
+  font-family: var(--font-title);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: var(--charcoal);
+}
+
+.card-rsvp .deck-card-text {
+  font-family: var(--font-serif);
+  font-size: 0.55rem;
+  font-style: italic;
+  color: #666;
+  margin-top: 1px;
+}
+
+.card-rsvp .deck-card-divider {
+  background-color: rgba(198, 167, 123, 0.3);
+}
+
+.btn-rsvp-action {
+  background-color: transparent;
+  border: 1px solid var(--gold);
   color: var(--gold-dark);
 }
 
-.card-sub {
+.btn-rsvp-action:hover {
+  background-color: var(--gold);
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(198, 167, 123, 0.25);
+}
+
+/* 2. Details Card: Square Sage/Olive green card */
+.card-details {
+  bottom: 5px;
+  right: 20px;
+  width: 136px;
+  height: 136px;
+  background-color: #4b5a52; /* Sage Green matching scattered envs */
+  border: 1px solid rgba(198, 167, 123, 0.25);
+  color: #fbfaf8;
+  z-index: 24;
+  transform: translate(0, 0) scale(0.95);
+}
+
+.card-details .deck-card-inner {
+  border: 1px solid rgba(198, 167, 123, 0.25);
+}
+
+.card-details .card-icon {
+  font-size: 1.2rem !important;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+
+.card-details .deck-card-title {
+  font-family: var(--font-sans);
+  font-size: 0.55rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  color: var(--gold-light);
+  text-transform: uppercase;
+}
+
+.card-details .deck-card-accent {
+  font-family: var(--font-title);
+  font-size: 0.85rem;
+  letter-spacing: 0.15em;
+  color: #ffffff;
+  margin-top: 1px;
+}
+
+.card-details .deck-card-text {
+  font-family: var(--font-sans);
+  font-size: 0.48rem;
+  line-height: 1.5;
+  letter-spacing: 0.05em;
+  color: #cbd4cb;
+}
+
+.card-details .deck-card-divider {
+  background-color: rgba(198, 167, 123, 0.25);
+}
+
+.btn-map-action {
+  background-color: var(--gold);
+  border: 1px solid var(--gold);
+  color: #ffffff;
+}
+
+.btn-map-action:hover {
+  background-color: var(--gold-dark);
+  border-color: var(--gold-dark);
+  box-shadow: 0 4px 10px rgba(153, 124, 85, 0.35);
+}
+
+/* 3. Main Invitation Card: Vertical luxurious cream card */
+.card-main {
+  top: 10px;
+  left: 45px;
+  width: 210px;
+  height: 270px;
+  background-color: #fcfbf9; /* Cream Paper */
+  border: 1.5px solid var(--gold);
+  z-index: 23;
+  transform: translate(0, 0) scale(0.95);
+}
+
+.card-main .deck-card-inner {
+  border: 1px solid rgba(198, 167, 123, 0.3);
+  padding: 18px 12px;
+}
+
+.card-main .deck-monogram {
+  font-family: var(--font-script);
+  font-size: 1.8rem;
+  line-height: 1;
+  color: var(--gold-dark);
+  margin-bottom: 2px;
+}
+
+.card-main .deck-couple-names {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--charcoal);
+  line-height: 1.25;
+}
+
+.card-main .deck-wedding-tag {
   font-family: var(--font-sans);
   font-size: 0.45rem;
   letter-spacing: 0.25em;
   font-weight: 700;
-  color: var(--charcoal);
-  margin-top: 2px;
+  color: var(--gold-dark);
+  margin-top: 4px;
 }
 
-.card-divider {
-  width: 24px;
+.card-main .deck-card-divider-luxury {
+  width: 35px;
   height: 1px;
-  background-color: var(--gold);
-  margin: 6px 0;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 10px 0;
 }
 
-.card-italic {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 0.55rem;
-  color: #777;
-}
-
-.card-date {
+.card-main .deck-wedding-date {
   font-family: var(--font-sans);
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.15em;
   color: var(--charcoal);
-  margin-top: 1px;
 }
 
-.card-location {
+.card-main .deck-wedding-location {
   font-family: var(--font-sans);
-  font-size: 0.45rem;
+  font-size: 0.48rem;
   letter-spacing: 0.15em;
   color: #666;
-  margin-top: 1px;
+  margin-top: 2px;
+  text-transform: uppercase;
+}
+
+.btn-enter-action {
+  background-color: var(--charcoal);
+  border: 1px solid var(--charcoal);
+  color: #ffffff;
+  margin-top: 14px;
+  font-size: 0.5rem;
+}
+
+.btn-enter-action:hover {
+  background-color: var(--gold-dark);
+  border-color: var(--gold-dark);
+  box-shadow: 0 4px 10px rgba(153, 124, 85, 0.3);
+}
+
+/* Hover scales for individual fanned cards */
+.envelope.open .deck-card {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+}
+
+.envelope.open .deck-card:hover {
+  transform: translate(var(--hover-tx), var(--hover-ty)) rotate(var(--hover-rot)) scale(1.05) !important;
+  z-index: 100 !important;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
 }
 
 /* Animation trigger states */
 .envelope.open .envelope-top-flap {
   transform: rotateX(180deg);
-  z-index: 1; /* Pushed behind so card slides over it */
+  z-index: 1; /* Behind cards */
 }
 
-.envelope.open .envelope-card {
-  transform: translateY(-240px);
-  z-index: 5;
+/* Fanning animation transforms */
+.envelope.open .envelope-card-deck {
+  pointer-events: auto;
+  z-index: 70;
 }
 
-@media (max-width: 420px) {
-  .envelope.open .envelope-card {
-    transform: translateY(-200px);
+.envelope.open .deck-card {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Fanning coordinates */
+.envelope.open .card-main {
+  transform: translate(-10px, -155px) rotate(0deg) scale(1);
+  --hover-tx: -10px; --hover-ty: -155px; --hover-rot: 0deg;
+  transition-delay: 0.5s;
+}
+
+.envelope.open .card-details {
+  transform: translate(145px, -85px) rotate(12deg) scale(0.95);
+  --hover-tx: 145px; --hover-ty: -85px; --hover-rot: 12deg;
+  transition-delay: 0.65s;
+}
+
+.envelope.open .card-rsvp {
+  transform: translate(-140px, -170px) rotate(-10deg) scale(0.95);
+  --hover-tx: -140px; --hover-ty: -170px; --hover-rot: -10deg;
+  transition-delay: 0.8s;
+}
+
+/* Instructions */
+.envelope-instruction {
+  font-family: var(--font-sans);
+  font-size: 0.6rem;
+  letter-spacing: 0.25em;
+  color: rgba(255, 255, 255, 0.45);
+  margin-top: 3.5rem;
+  text-align: center;
+  animation: pulse-slow 2.5s infinite;
+  text-transform: uppercase;
+  z-index: 50;
+}
+
+/* Responsive scaling for the entire desk layout to fit perfectly on mobile */
+@media (max-width: 580px) {
+  .desk-container {
+    transform: scale(0.85);
   }
 }
 
-.envelope-instruction {
-  font-family: var(--font-sans);
-  font-size: 0.65rem;
-  letter-spacing: 0.2em;
-  color: #555;
-  margin-top: 2rem;
-  animation: pulse-slow 2s infinite;
-  text-transform: uppercase;
+@media (max-width: 480px) {
+  .desk-container {
+    transform: scale(0.72);
+  }
+}
+
+@media (max-width: 375px) {
+  .desk-container {
+    transform: scale(0.64);
+  }
 }
 
 /* ==========================================================================
@@ -1031,8 +1277,15 @@ body {
 /* Footer layout */
 .footer-layout {
   text-align: center;
-  padding: 3rem 1.5rem 1rem;
+  padding: 3rem 1.5rem 2rem;
   position: relative;
+  background: rgba(253, 250, 245, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(198, 167, 123, 0.25);
+  margin-top: 4rem;
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.05);
 }
 
 .footer-divider {
@@ -1615,4 +1868,57 @@ body {
 .grid-envelope.open .grid-envelope-card {
   transform: translateY(-160px);
   z-index: 5;
+}
+
+/* ==========================================================================
+   Mobile-Responsive Specific Overrides
+   ========================================================================== */
+@media (max-width: 580px) {
+  .envelope.open .card-details {
+    transform: translate(65px, -85px) rotate(8deg) scale(0.85);
+    --hover-tx: 65px; --hover-ty: -85px; --hover-rot: 8deg;
+  }
+  .envelope.open .card-rsvp {
+    transform: translate(-65px, -155px) rotate(-8deg) scale(0.85);
+    --hover-tx: -65px; --hover-ty: -155px; --hover-rot: -8deg;
+  }
+  .envelope.open .card-main {
+    transform: translate(-5px, -145px) rotate(0deg) scale(0.9);
+    --hover-tx: -5px; --hover-ty: -145px; --hover-rot: 0deg;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content-layout {
+    padding: 2rem 0.65rem 4rem;
+  }
+  .card-premium {
+    padding: 1.5rem 1rem;
+  }
+  .countdown-num {
+    font-size: 1.6rem;
+  }
+  .countdown-label {
+    font-size: 0.5rem;
+    letter-spacing: 0.08em;
+  }
+  .modal-container {
+    padding: 1.5rem 1rem;
+    outline-offset: -5px;
+    width: 95%;
+  }
+  .success-check-icon {
+    font-size: 3rem !important;
+  }
+  .audio-control-fixed {
+    bottom: 1rem;
+    right: 1rem;
+  }
+  .music-toggle-btn {
+    width: 40px;
+    height: 40px;
+  }
+  .music-toggle-btn span {
+    font-size: 1.25rem !important;
+  }
 }
