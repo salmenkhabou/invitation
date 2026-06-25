@@ -10,8 +10,9 @@ const GUESTS_FILE = path.join(__dirname, 'guests.json');
 const RSVP_FILE = path.join(__dirname, 'rsvps.json');
 const SONGS_FILE = path.join(__dirname, 'songs.json');
 
+
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
 app.use((req, res, next) => {
   res.set('Cache-Control', 'no-store, no-cache, must-revalidate, private');
   next();
@@ -24,6 +25,7 @@ function ensureFileExists(filePath, defaultValue = '[]') {
     fs.writeFileSync(filePath, defaultValue, 'utf8');
   }
 }
+
 
 ensureFileExists(GUESTS_FILE, '[]');
 ensureFileExists(RSVP_FILE, '[]');
@@ -186,6 +188,7 @@ app.get('/api/admin/songs', (req, res) => {
     return res.status(500).json({ error: 'Internal server error' });
   }
 });
+
 
 app.listen(PORT, () => {
   console.log(`Invitation 2.0 server running at http://localhost:${PORT}`);

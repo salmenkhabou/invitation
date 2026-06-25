@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz5n5-RrzdaNefnWm7l-kUMR2mP9VpkECkamka0yagbAZUOJPDva6yboNIJus8Gklft/exec";
+  
   // ==========================================================================
   // 1. Floating Gold Dust Particle Engine (HTML5 Canvas)
   // ==========================================================================
@@ -89,16 +91,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const mapModal = document.getElementById('map-modal');
   const mapCloseBtn = document.getElementById('map-close-btn');
   
-  const openRsvpBtn = document.getElementById('open-rsvp-btn');
   const rsvpModal = document.getElementById('rsvp-modal');
   const rsvpCloseBtn = document.getElementById('rsvp-close-btn');
-  
-  const copyRibBtn = document.getElementById('copy-rib-btn');
-  const copyBtnText = document.getElementById('copy-btn-text');
-  
-  const songForm = document.getElementById('song-form');
-  const songSubmitBtn = document.getElementById('song-submit-btn');
-  const songResponse = document.getElementById('song-response');
   
   // Card Deck Buttons
   const deckRsvpBtn = document.getElementById('deck-rsvp-btn');
@@ -116,6 +110,14 @@ document.addEventListener('DOMContentLoaded', () => {
   waxSealBtn.addEventListener('click', () => {
     envelope.classList.add('open');
     playMusic();
+    
+    // Show the downward arrow inside the envelope scene after a small delay
+    const envNavArrow = document.getElementById('envelope-nav-arrow');
+    if (envNavArrow) {
+      setTimeout(() => {
+        envNavArrow.classList.add('visible');
+      }, 1500);
+    }
   });
 
   // Action: Enter the main scrolling invitation website
@@ -125,15 +127,49 @@ document.addEventListener('DOMContentLoaded', () => {
     
     mainContent.classList.add('visible');
     
+    // Show back button, hide down arrow
+    const backBtn = document.getElementById('floating-back-btn-container');
+    if (backBtn) backBtn.classList.add('visible');
+    
+    const envNavArrow = document.getElementById('envelope-nav-arrow');
+    if (envNavArrow) envNavArrow.classList.remove('visible');
+
     // Trigger scroll reveals for cards within viewport immediately
     setTimeout(() => {
       triggerScrollReveals();
     }, 100);
     
-    // Remove wrapper from screen space completely
+    // Hide wrapper after transition completes
     setTimeout(() => {
       envelopeWrapper.style.display = 'none';
     }, 1000);
+  }
+
+  // Action: Return to the envelope page
+  function showEnvelope() {
+    // Reveal envelope wrapper first
+    envelopeWrapper.style.display = 'flex';
+    
+    // Hide back button
+    const backBtn = document.getElementById('floating-back-btn-container');
+    if (backBtn) backBtn.classList.remove('visible');
+
+    // Show down arrow inside envelope again
+    const envNavArrow = document.getElementById('envelope-nav-arrow');
+    if (envNavArrow) {
+      setTimeout(() => {
+        envNavArrow.classList.add('visible');
+      }, 1000);
+    }
+
+    setTimeout(() => {
+      envelopeWrapper.style.opacity = '1';
+      envelopeWrapper.style.pointerEvents = 'auto';
+      mainContent.classList.remove('visible');
+      
+      // Scroll back to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 50);
   }
 
   // Wire fanned cards interactive buttons
@@ -150,7 +186,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (deckRsvpBtn) {
     deckRsvpBtn.addEventListener('click', () => {
       if (activeGuest) {
-        // If guest is preloaded from URL, bypass search stage
         selectGuest(activeGuest);
         openModal(rsvpModal);
       } else {
@@ -158,6 +193,18 @@ document.addEventListener('DOMContentLoaded', () => {
         openModal(rsvpModal);
       }
     });
+  }
+
+  // Wire downward nav arrow button
+  const scrollToDetailsBtn = document.getElementById('scroll-to-details-btn');
+  if (scrollToDetailsBtn) {
+    scrollToDetailsBtn.addEventListener('click', enterSite);
+  }
+
+  // Wire back to envelope button
+  const backToEnvelopeBtn = document.getElementById('back-to-envelope-btn');
+  if (backToEnvelopeBtn) {
+    backToEnvelopeBtn.addEventListener('click', showEnvelope);
   }
 
   // URL Query Parameters Guest Auto-loader
@@ -277,40 +324,6 @@ document.addEventListener('DOMContentLoaded', () => {
   updateCountdown();
   setInterval(updateCountdown, 1000);
 
-  // ==========================================================================
-  // 6. Copy Bank RIB Code
-  // ==========================================================================
-  if (copyRibBtn) {
-    copyRibBtn.addEventListener('click', () => {
-      const code = document.getElementById('rib-code').textContent;
-      
-      navigator.clipboard.writeText(code)
-        .then(() => {
-          copyBtnText.textContent = 'RIB Copié !';
-          copyRibBtn.style.backgroundColor = 'rgba(198, 167, 123, 0.15)';
-          
-          setTimeout(() => {
-            copyBtnText.textContent = 'Copier le RIB';
-            copyRibBtn.style.backgroundColor = '#ffffff';
-          }, 2000);
-        })
-        .catch(err => {
-          console.error('Failed to copy text: ', err);
-          // Fallback selection copy
-          const tempArea = document.createElement('textarea');
-          tempArea.value = code;
-          document.body.appendChild(tempArea);
-          tempArea.select();
-          document.execCommand('copy');
-          document.body.removeChild(tempArea);
-          
-          copyBtnText.textContent = 'RIB Copié !';
-          setTimeout(() => {
-            copyBtnText.textContent = 'Copier le RIB';
-          }, 2000);
-        });
-    });
-  }
 
   // ==========================================================================
   // 7. Modals Overlay Controller
@@ -327,20 +340,19 @@ document.addEventListener('DOMContentLoaded', () => {
   
   openMapBtn.addEventListener('click', () => openModal(mapModal));
   mapCloseBtn.addEventListener('click', () => closeModal(mapModal));
-  
-  openRsvpBtn.addEventListener('click', () => {
-    resetRsvpForm();
-    openModal(rsvpModal);
-  });
-  rsvpCloseBtn.addEventListener('click', () => closeModal(rsvpModal));
+  if (rsvpCloseBtn) {
+    rsvpCloseBtn.addEventListener('click', () => closeModal(rsvpModal));
+  }
   
   // Background overlay click exit
   [mapModal, rsvpModal].forEach(modal => {
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        closeModal(modal);
-      }
-    });
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          closeModal(modal);
+        }
+      });
+    }
   });
   
   // Escape key exit
@@ -348,56 +360,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Escape') {
       closeModal(mapModal);
       closeModal(rsvpModal);
+      closeLightbox();
     }
   });
-
-  // ==========================================================================
-  // 8. Song Suggestion Submission
-  // ==========================================================================
-  if (songForm) {
-    songForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      
-      songSubmitBtn.disabled = true;
-      songSubmitBtn.textContent = 'Envoi...';
-      
-      const payload = {
-        name: document.getElementById('song-guest-name').value,
-        title: document.getElementById('song-title').value,
-        artist: document.getElementById('song-artist').value
-      };
-      
-      fetch('/api/song', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      })
-      .then(res => {
-        if (!res.ok) throw new Error('Error saving song request.');
-        return res.json();
-      })
-      .then(data => {
-        songResponse.textContent = 'Merci ! Votre suggestion a été ajoutée à notre playlist.';
-        songResponse.className = 'form-response success';
-        songResponse.classList.remove('hidden');
-        songForm.reset();
-      })
-      .catch(err => {
-        console.error(err);
-        songResponse.textContent = 'Oups, un problème est survenu. Veuillez réessayer.';
-        songResponse.className = 'form-response error';
-        songResponse.classList.remove('hidden');
-      })
-      .finally(() => {
-        songSubmitBtn.disabled = false;
-        songSubmitBtn.textContent = 'Suggérer';
-        
-        setTimeout(() => {
-          songResponse.classList.add('hidden');
-        }, 5000);
-      });
-    });
-  }
 
   // ==========================================================================
   // 9. Premium RSVP Guest List Flow
@@ -421,36 +386,40 @@ document.addEventListener('DOMContentLoaded', () => {
   
   function resetRsvpForm() {
     activeGuest = null;
-    searchInput.value = '';
-    searchErrorBox.classList.add('hidden');
-    searchResultsDiv.classList.add('hidden');
-    resultsContainer.innerHTML = '';
+    if (searchInput) searchInput.value = '';
+    if (searchErrorBox) searchErrorBox.classList.add('hidden');
+    if (searchResultsDiv) searchResultsDiv.classList.add('hidden');
+    if (resultsContainer) resultsContainer.innerHTML = '';
     
-    confirmForm.reset();
+    if (confirmForm) confirmForm.reset();
     
-    searchStage.classList.remove('hidden');
-    confirmStage.classList.add('hidden');
-    successStage.classList.add('hidden');
+    if (searchStage) searchStage.classList.remove('hidden');
+    if (confirmStage) confirmStage.classList.add('hidden');
+    if (successStage) successStage.classList.add('hidden');
   }
   
   // Toggle guests attending number count based on status choice
   rsvpStatusRadios.forEach(radio => {
     radio.addEventListener('change', (e) => {
       if (e.target.value === 'confirmed') {
-        confirmedGuestsGroup.classList.remove('hidden');
+        if (confirmedGuestsGroup) confirmedGuestsGroup.classList.remove('hidden');
       } else {
-        confirmedGuestsGroup.classList.add('hidden');
+        if (confirmedGuestsGroup) confirmedGuestsGroup.classList.add('hidden');
       }
     });
   });
   
   // Search Action
-  searchBtn.addEventListener('click', performSearch);
-  searchInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      performSearch();
-    }
-  });
+  if (searchBtn) {
+    searchBtn.addEventListener('click', performSearch);
+  }
+  if (searchInput) {
+    searchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        performSearch();
+      }
+    });
+  }
   
   function performSearch() {
     const query = searchInput.value.trim();
@@ -461,9 +430,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     searchBtn.disabled = true;
     searchBtn.textContent = 'Recherche...';
-    searchErrorBox.classList.add('hidden');
-    searchResultsDiv.classList.add('hidden');
-    resultsContainer.innerHTML = '';
+    if (searchErrorBox) searchErrorBox.classList.add('hidden');
+    if (searchResultsDiv) searchResultsDiv.classList.add('hidden');
+    if (resultsContainer) resultsContainer.innerHTML = '';
     
     fetch(`/api/guests/search?name=${encodeURIComponent(query)}`)
       .then(res => {
@@ -477,14 +446,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         // Show matching lists
-        searchResultsDiv.classList.remove('hidden');
+        if (searchResultsDiv) searchResultsDiv.classList.remove('hidden');
         matches.forEach(guest => {
           const btn = document.createElement('button');
           btn.type = 'button';
           btn.className = 'btn-guest-result';
           btn.innerHTML = `${guest.name} <span class="material-symbols-outlined">arrow_forward_ios</span>`;
           btn.addEventListener('click', () => selectGuest(guest));
-          resultsContainer.appendChild(btn);
+          if (resultsContainer) resultsContainer.appendChild(btn);
         });
       })
       .catch(err => {
@@ -497,8 +466,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   
   function showSearchError(msg) {
-    searchErrorBox.textContent = msg;
-    searchErrorBox.classList.remove('hidden');
+    if (searchErrorBox) {
+      searchErrorBox.textContent = msg;
+      searchErrorBox.classList.remove('hidden');
+    }
   }
   
   // Select Guest from search results
@@ -506,120 +477,149 @@ document.addEventListener('DOMContentLoaded', () => {
     activeGuest = guest;
     
     // Transition stage
-    searchStage.classList.add('hidden');
-    confirmStage.classList.remove('hidden');
+    if (searchStage) searchStage.classList.add('hidden');
+    if (confirmStage) confirmStage.classList.remove('hidden');
     
     // Header
-    document.getElementById('rsvp-guest-title-display').textContent = `Invitation pour ${guest.name}`;
+    const displayEl = document.getElementById('rsvp-guest-title-display');
+    if (displayEl) displayEl.textContent = `Invitation pour ${guest.name}`;
     
     // Allowance limits info
-    seatsLimitText.textContent = `Votre invitation comprend un maximum de ${guest.maxGuests} personne(s).`;
+    if (seatsLimitText) seatsLimitText.textContent = `Votre invitation comprend un maximum de ${guest.maxGuests} personne(s).`;
     
     // Populate seat select count
-    confirmedCountSelect.innerHTML = '';
-    for (let i = 1; i <= guest.maxGuests; i++) {
-      const opt = document.createElement('option');
-      opt.value = i;
-      opt.textContent = `${i} personne(s)`;
-      if (i === guest.maxGuests) opt.selected = true;
-      confirmedCountSelect.appendChild(opt);
+    if (confirmedCountSelect) {
+      confirmedCountSelect.innerHTML = '';
+      for (let i = 1; i <= guest.maxGuests; i++) {
+        const opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = `${i} personne(s)`;
+        if (i === guest.maxGuests) opt.selected = true;
+        confirmedCountSelect.appendChild(opt);
+      }
     }
     
     // Preset previous entries if any
     if (guest.status !== 'pending') {
       const isAttending = guest.status === 'confirmed';
-      document.querySelector(`input[name="rsvp-status"][value="${guest.status}"]`).checked = true;
+      const statusInput = document.querySelector(`input[name="rsvp-status"][value="${guest.status}"]`);
+      if (statusInput) statusInput.checked = true;
       
       if (isAttending) {
-        confirmedGuestsGroup.classList.remove('hidden');
-        confirmedCountSelect.value = guest.confirmedGuests || guest.maxGuests;
+        if (confirmedGuestsGroup) confirmedGuestsGroup.classList.remove('hidden');
+        if (confirmedCountSelect) confirmedCountSelect.value = guest.confirmedGuests || guest.maxGuests;
       } else {
-        confirmedGuestsGroup.classList.add('hidden');
+        if (confirmedGuestsGroup) confirmedGuestsGroup.classList.add('hidden');
       }
       
-      document.getElementById('rsvp-email').value = guest.email || '';
-      document.getElementById('rsvp-dietary').value = guest.dietary || '';
-      document.getElementById('rsvp-message').value = guest.message || '';
+      const emailEl = document.getElementById('rsvp-email');
+      const dietaryEl = document.getElementById('rsvp-dietary');
+      const msgEl = document.getElementById('rsvp-message');
+      
+      if (emailEl) emailEl.value = guest.email || '';
+      if (dietaryEl) dietaryEl.value = guest.dietary || '';
+      if (msgEl) msgEl.value = guest.message || '';
     } else {
       // Default reset
-      document.querySelector('input[name="rsvp-status"][value="confirmed"]').checked = true;
-      confirmedGuestsGroup.classList.remove('hidden');
-      document.getElementById('rsvp-email').value = '';
-      document.getElementById('rsvp-dietary').value = '';
-      document.getElementById('rsvp-message').value = '';
+      const statusInput = document.querySelector('input[name="rsvp-status"][value="confirmed"]');
+      if (statusInput) statusInput.checked = true;
+      if (confirmedGuestsGroup) confirmedGuestsGroup.classList.remove('hidden');
+      
+      const emailEl = document.getElementById('rsvp-email');
+      const dietaryEl = document.getElementById('rsvp-dietary');
+      const msgEl = document.getElementById('rsvp-message');
+      
+      if (emailEl) emailEl.value = '';
+      if (dietaryEl) dietaryEl.value = '';
+      if (msgEl) msgEl.value = '';
     }
   }
   
   // Submit Confirmation details
-  confirmForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    if (!activeGuest) return;
-    
-    const submitBtn = confirmForm.querySelector('button[type="submit"]');
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Envoi...';
-    
-    const rsvpStatus = document.querySelector('input[name="rsvp-status"]:checked').value;
-    const confirmedCount = rsvpStatus === 'confirmed' ? parseInt(confirmedCountSelect.value) : 0;
-    
-    const payload = {
-      guestId: activeGuest.id,
-      status: rsvpStatus,
-      confirmedGuests: confirmedCount,
-      email: document.getElementById('rsvp-email').value.trim(),
-      dietary: document.getElementById('rsvp-dietary').value.trim(),
-      message: document.getElementById('rsvp-message').value.trim()
-    };
-    
-    fetch('/api/guests/confirm', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    })
-    .then(res => {
-      if (!res.ok) throw new Error();
-      return res.json();
-    })
-    .then(data => {
-      // Success
-      confirmStage.classList.add('hidden');
-      successStage.classList.remove('hidden');
+  if (confirmForm) {
+    confirmForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!activeGuest) return;
       
-      const updatedGuest = data.guest;
-      activeGuest = updatedGuest; // Update active state locally
-      
-      // Update deck card RSVP button text to reflect updated state
-      if (deckRsvpBtn) {
-        deckRsvpBtn.textContent = 'Modif. Réponse';
+      const submitBtn = confirmForm.querySelector('button[type="submit"]');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Envoi...';
       }
       
-      document.getElementById('rsvp-success-thank-you').textContent = `Merci ${updatedGuest.name} ! Votre réponse a bien été prise en compte.`;
+      const rsvpStatus = document.querySelector('input[name="rsvp-status"]:checked').value;
+      const confirmedCount = rsvpStatus === 'confirmed' ? parseInt(confirmedCountSelect.value) : 0;
       
-      const badge = document.getElementById('summary-status-badge');
-      if (updatedGuest.status === 'confirmed') {
-        badge.textContent = 'Présent';
-        badge.style.color = 'var(--gold-dark)';
-        document.getElementById('summary-guests-line').classList.remove('hidden');
-        document.getElementById('summary-guests-count').textContent = updatedGuest.confirmedGuests;
-      } else {
-        badge.textContent = 'Absent';
-        badge.style.color = '#ef4444';
-        document.getElementById('summary-guests-line').classList.add('hidden');
-      }
-    })
-    .catch(err => {
-      console.error(err);
-      alert("Une erreur est survenue lors de la confirmation. Veuillez réessayer.");
-    })
-    .finally(() => {
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Confirmer';
+      const payload = {
+        guestId: activeGuest.id,
+        status: rsvpStatus,
+        confirmedGuests: confirmedCount,
+        email: document.getElementById('rsvp-email').value.trim(),
+        dietary: document.getElementById('rsvp-dietary').value.trim(),
+        message: document.getElementById('rsvp-message').value.trim()
+      };
+      
+      fetch('/api/guests/confirm', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(res => {
+        if (!res.ok) throw new Error();
+        return res.json();
+      })
+      .then(data => {
+        // Success
+        if (confirmStage) confirmStage.classList.add('hidden');
+        if (successStage) successStage.classList.remove('hidden');
+        
+        const updatedGuest = data.guest;
+        activeGuest = updatedGuest; // Update active state locally
+        
+        // Update deck card RSVP button text to reflect updated state
+        if (deckRsvpBtn) {
+          deckRsvpBtn.textContent = 'Modif. Réponse';
+        }
+        
+        const successThankYou = document.getElementById('rsvp-success-thank-you');
+        if (successThankYou) successThankYou.textContent = `Merci ${updatedGuest.name} ! Votre réponse a bien été prise en compte.`;
+        
+        const badge = document.getElementById('summary-status-badge');
+        if (badge) {
+          if (updatedGuest.status === 'confirmed') {
+            badge.textContent = 'Présent';
+            badge.style.color = 'var(--gold-dark)';
+            const summaryLine = document.getElementById('summary-guests-line');
+            const summaryCount = document.getElementById('summary-guests-count');
+            if (summaryLine) summaryLine.classList.remove('hidden');
+            if (summaryCount) summaryCount.textContent = updatedGuest.confirmedGuests;
+          } else {
+            badge.textContent = 'Absent';
+            badge.style.color = '#ef4444';
+            const summaryLine = document.getElementById('summary-guests-line');
+            if (summaryLine) summaryLine.classList.add('hidden');
+          }
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Une erreur est survenue lors de la confirmation. Veuillez réessayer.");
+      })
+      .finally(() => {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Confirmer';
+        }
+      });
     });
-  });
+  }
   
-  document.getElementById('success-done-btn').addEventListener('click', () => {
-    closeModal(rsvpModal);
-  });
+  const successDoneBtn = document.getElementById('success-done-btn');
+  if (successDoneBtn) {
+    successDoneBtn.addEventListener('click', () => {
+      closeModal(rsvpModal);
+    });
+  }
 
   // ==========================================================================
   // 10. Card Fade & Scroll Reveal Engine
@@ -649,6 +649,216 @@ document.addEventListener('DOMContentLoaded', () => {
       if (rect.top < window.innerHeight) {
         card.classList.add('revealed');
       }
+    });
+  }
+
+  // ==========================================================================
+  // 11. Image Upload & Gallery Engine (Google Drive & Local Node Backend)
+  // ==========================================================================
+  const deckUploadZone = document.getElementById('deck-upload-zone');
+  const deckPhotoInput = document.getElementById('deck-photo-input');
+  const deckShareBtn = document.getElementById('deck-share-btn');
+  const lightboxModal = document.getElementById('lightbox-modal');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxCloseBtn = document.getElementById('lightbox-close-btn');
+  const galleryGrid = document.getElementById('gallery-grid');
+
+  function uploadPhoto(file) {
+    if (!file.type.startsWith('image/')) {
+      alert('Veuillez sélectionner un fichier image (JPG, PNG, WEBP, GIF).');
+      return;
+    }
+    
+    if (file.size > 10 * 1024 * 1024) {
+      alert('La taille de l\'image ne doit pas dépasser 10 Mo.');
+      return;
+    }
+
+    const uploadIcon = deckUploadZone ? deckUploadZone.querySelector('span') : null;
+    const uploadText = deckUploadZone ? deckUploadZone.querySelector('p') : null;
+
+    const originalIcon = uploadIcon ? uploadIcon.textContent : 'add_a_photo';
+    const originalText = uploadText ? uploadText.textContent : 'Glissez-déposez ou cliquez';
+
+    if (uploadIcon) {
+      uploadIcon.textContent = 'sync';
+      uploadIcon.classList.add('spin');
+    }
+    if (uploadText) {
+      uploadText.textContent = 'Envoi...';
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const dataUrl = e.target.result;
+      const base64Raw = dataUrl.split(',')[1];
+      
+      const appsScriptPayload = {
+        base64: base64Raw,
+        mimeType: file.type,
+        fileName: file.name
+      };
+
+      fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8'
+        },
+        body: JSON.stringify(appsScriptPayload)
+      })
+      .then(res => res.json())
+      .then(driveData => {
+        if (driveData.success) {
+          if (uploadIcon) {
+            uploadIcon.classList.remove('spin');
+            uploadIcon.textContent = 'check_circle';
+          }
+          if (uploadText) {
+            uploadText.textContent = 'Téléversé !';
+          }
+        } else {
+          throw new Error(driveData.error || 'Server error');
+        }
+      })
+      .catch(err => {
+        console.error('Upload failed:', err);
+        if (uploadIcon) {
+          uploadIcon.classList.remove('spin');
+          uploadIcon.textContent = 'error';
+        }
+        if (uploadText) {
+          uploadText.textContent = 'Erreur !';
+        }
+      })
+      .finally(() => {
+        setTimeout(() => {
+          if (uploadIcon) {
+            uploadIcon.classList.remove('spin');
+            uploadIcon.textContent = originalIcon;
+          }
+          if (uploadText) {
+            uploadText.textContent = originalText;
+          }
+        }, 3000);
+      });
+    };
+    
+    reader.onerror = function() {
+      alert('Échec de la lecture du fichier.');
+      if (uploadIcon) {
+        uploadIcon.classList.remove('spin');
+        uploadIcon.textContent = originalIcon;
+      }
+      if (uploadText) {
+        uploadText.textContent = originalText;
+      }
+    };
+    
+    reader.readAsDataURL(file);
+  }
+
+  function setupDragDrop(zone) {
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      zone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      }, false);
+    });
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+      zone.addEventListener(eventName, () => zone.classList.add('drag-over'), false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+      zone.addEventListener(eventName, () => zone.classList.remove('drag-over'), false);
+    });
+
+    zone.addEventListener('drop', (e) => {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+      if (files.length > 0) {
+        uploadPhoto(files[0]);
+      }
+    });
+  }
+
+  if (deckUploadZone && deckPhotoInput) {
+    deckUploadZone.addEventListener('click', () => deckPhotoInput.click());
+    deckPhotoInput.addEventListener('change', () => {
+      if (deckPhotoInput.files.length > 0) {
+        uploadPhoto(deckPhotoInput.files[0]);
+      }
+    });
+    setupDragDrop(deckUploadZone);
+  }
+
+  // Lightbox controllers
+  function openLightbox(photoUrl) {
+    if (lightboxImg && lightboxModal) {
+      lightboxImg.src = photoUrl;
+      lightboxModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  // Handle gallery grid item clicks using event delegation
+  if (galleryGrid) {
+    galleryGrid.addEventListener('click', (e) => {
+      const item = e.target.closest('.gallery-item');
+      if (item) {
+        const img = item.querySelector('img');
+        if (img) {
+          openLightbox(img.getAttribute('src'));
+        }
+      }
+    });
+  }
+
+  function closeLightbox() {
+    if (lightboxModal) {
+      lightboxModal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  }
+
+  if (lightboxCloseBtn) {
+    lightboxCloseBtn.addEventListener('click', closeLightbox);
+  }
+  if (lightboxModal) {
+    lightboxModal.addEventListener('click', (e) => {
+      if (e.target === lightboxModal) {
+        closeLightbox();
+      }
+    });
+  }
+
+  // Copy website link logic for Share Card
+  if (deckShareBtn) {
+    deckShareBtn.addEventListener('click', () => {
+      const siteUrl = window.location.origin + window.location.pathname;
+      navigator.clipboard.writeText(siteUrl)
+        .then(() => {
+          deckShareBtn.textContent = 'Lien Copié !';
+          deckShareBtn.style.backgroundColor = 'var(--gold-dark)';
+          setTimeout(() => {
+            deckShareBtn.textContent = 'Copier le Lien';
+            deckShareBtn.style.backgroundColor = 'var(--gold)';
+          }, 2000);
+        })
+        .catch(err => {
+          console.error('Failed to copy link:', err);
+          const tempArea = document.createElement('textarea');
+          tempArea.value = siteUrl;
+          document.body.appendChild(tempArea);
+          tempArea.select();
+          document.execCommand('copy');
+          document.body.removeChild(tempArea);
+          
+          deckShareBtn.textContent = 'Lien Copié !';
+          setTimeout(() => {
+            deckShareBtn.textContent = 'Copier le Lien';
+          }, 2000);
+        });
     });
   }
 });

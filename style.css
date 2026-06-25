@@ -148,6 +148,37 @@ body {
   padding: 30px;
 }
 
+.env-top-right {
+  top: -80px;
+  right: -120px;
+  width: 280px;
+  height: 200px;
+  transform: rotate(30deg) translateZ(-60px);
+  opacity: 0.55;
+}
+
+.env-bottom-left {
+  bottom: -90px;
+  left: -100px;
+  width: 330px;
+  height: 230px;
+  transform: rotate(-15deg) translateZ(-45px);
+  opacity: 0.7;
+  display: flex;
+  align-items: flex-start;
+  padding: 30px;
+}
+
+.env-bottom-left .embossed-text {
+  font-family: var(--font-title);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.05);
+  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.05), -1px -1px 0px rgba(0,0,0,0.4);
+  transform: rotate(15deg);
+  text-transform: uppercase;
+}
+
 .env-bottom-right .embossed-text {
   font-family: var(--font-title);
   font-size: 0.8rem;
@@ -155,6 +186,37 @@ body {
   color: rgba(255, 255, 255, 0.05);
   text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.05), -1px -1px 0px rgba(0,0,0,0.4);
   transform: rotate(-18deg);
+  text-transform: uppercase;
+}
+
+.env-mid-left {
+  top: 38%;
+  left: -130px;
+  width: 290px;
+  height: 200px;
+  transform: rotate(-12deg) translateZ(-55px);
+  opacity: 0.45;
+}
+
+.env-mid-right {
+  top: 42%;
+  right: -130px;
+  width: 300px;
+  height: 210px;
+  transform: rotate(14deg) translateZ(-50px);
+  opacity: 0.5;
+  display: flex;
+  align-items: flex-end;
+  padding: 25px;
+}
+
+.env-mid-right .embossed-text {
+  font-family: var(--font-title);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.04);
+  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.04), -1px -1px 0px rgba(0,0,0,0.35);
+  transform: rotate(-14deg);
   text-transform: uppercase;
 }
 
@@ -368,22 +430,20 @@ body {
   margin: 6px 0;
 }
 
-/* 1. RSVP Card: Horizontal translucent card */
+/* 1. RSVP Card: Vertical translucent card matching fanning symmetry */
 .card-rsvp {
   bottom: 5px;
   left: 20px;
-  width: 170px;
-  height: 110px;
-  background-color: rgba(253, 250, 245, 0.85);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  border: 1px solid rgba(198, 167, 123, 0.4);
+  width: 146px;
+  height: 160px;
+  background-color: rgba(253, 250, 245, 0.9);
+  border: 1px solid rgba(198, 167, 123, 0.45);
   z-index: 25;
   transform: translate(0, 0) scale(0.95);
 }
 
 .card-rsvp .deck-card-inner {
-  border: 1px solid rgba(198, 167, 123, 0.2);
+  border: 1px solid rgba(198, 167, 123, 0.25);
 }
 
 .card-rsvp .card-icon {
@@ -423,12 +483,12 @@ body {
   box-shadow: 0 4px 10px rgba(198, 167, 123, 0.25);
 }
 
-/* 2. Details Card: Square Sage/Olive green card */
+/* 2. Details Card: Vertical Sage green card */
 .card-details {
   bottom: 5px;
   right: 20px;
-  width: 136px;
-  height: 136px;
+  width: 146px;
+  height: 160px;
   background-color: #4b5a52; /* Sage Green matching scattered envs */
   border: 1px solid rgba(198, 167, 123, 0.25);
   color: #fbfaf8;
@@ -567,6 +627,148 @@ body {
   box-shadow: 0 4px 10px rgba(153, 124, 85, 0.3);
 }
 
+/* 4. Upload Card: Cream Theme Card */
+.card-upload {
+  bottom: 10px;
+  left: 20px;
+  width: 146px;
+  height: 160px;
+  background-color: #fcfbf9;
+  border: 1px solid rgba(198, 167, 123, 0.45);
+  color: var(--charcoal);
+  z-index: 21;
+  transform: translate(0, 0) scale(0.95);
+}
+
+.card-upload .deck-card-inner {
+  border: 1px solid rgba(198, 167, 123, 0.25);
+  padding: 12px;
+}
+
+.card-upload .card-icon {
+  font-size: 1.25rem !important;
+  color: var(--gold-dark);
+  margin-bottom: 2px;
+}
+
+.card-upload .deck-card-title {
+  font-family: var(--font-title);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: var(--gold-dark);
+  text-transform: uppercase;
+}
+
+.card-upload .upload-drag-area {
+  border: 1px dashed var(--gold);
+  border-radius: 8px;
+  width: 100%;
+  height: 75px;
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background-color: rgba(198, 167, 123, 0.04);
+  transition: all 0.3s ease;
+}
+
+.card-upload .upload-drag-area:hover,
+.card-upload .upload-drag-area.drag-over {
+  background-color: rgba(198, 167, 123, 0.08);
+  border-color: var(--gold-dark);
+}
+
+.card-upload .upload-drag-area span {
+  font-size: 1.2rem !important;
+  color: var(--gold-dark);
+}
+
+.card-upload .upload-drag-area p {
+  font-family: var(--font-sans);
+  font-size: 0.4rem;
+  color: #666;
+  letter-spacing: 0.05em;
+  margin-top: 2px;
+}
+
+/* 5. Share Card: Muted Sage Green card */
+.card-share {
+  bottom: 10px;
+  right: 20px;
+  width: 146px;
+  height: 160px;
+  background-color: #4b5a52; /* Sage green matching details card */
+  border: 1px solid rgba(198, 167, 123, 0.25);
+  color: #ffffff;
+  z-index: 22;
+  transform: translate(0, 0) scale(0.95);
+}
+
+.card-share .deck-card-inner {
+  border: 1px solid rgba(198, 167, 123, 0.25);
+  padding: 12px;
+}
+
+.card-share .deck-card-title {
+  font-family: var(--font-title);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: var(--gold-light);
+  text-transform: uppercase;
+}
+
+.card-share .qr-container {
+  background-color: #ffffff;
+  border-radius: 6px;
+  padding: 4px;
+  width: 64px;
+  height: 64px;
+  margin: 6px auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.card-share .qr-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.card-share .deck-card-text {
+  font-family: var(--font-sans);
+  font-size: 0.4rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 6px;
+  line-height: 1.3;
+  letter-spacing: 0.03em;
+}
+
+.btn-share-action {
+  background-color: var(--gold);
+  border: 1px solid var(--gold);
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 5px 12px;
+  margin-top: 8px;
+  border-radius: 8px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  width: 100%;
+}
+
+.btn-share-action:hover {
+  background-color: var(--gold-dark);
+  border-color: var(--gold-dark);
+}
+
 /* Hover scales for individual fanned cards */
 .envelope.open .deck-card {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
@@ -597,21 +799,42 @@ body {
 
 /* Fanning coordinates */
 .envelope.open .card-main {
-  transform: translate(-10px, -155px) rotate(0deg) scale(1);
-  --hover-tx: -10px; --hover-ty: -155px; --hover-rot: 0deg;
+  transform: translate(0px, -180px) rotate(0deg) scale(1);
+  --hover-tx: 0px; --hover-ty: -180px; --hover-rot: 0deg;
   transition-delay: 0.5s;
 }
 
+.envelope.open .card-rsvp {
+  transform: translate(-85px, -170px) rotate(-7deg) scale(0.95);
+  --hover-tx: -85px; --hover-ty: -170px; --hover-rot: -7deg;
+  transition-delay: 0.6s;
+}
+
+.envelope.open .card-upload {
+  transform: translate(-165px, -155px) rotate(-15deg) scale(0.9);
+  --hover-tx: -165px; --hover-ty: -155px; --hover-rot: -15deg;
+  transition-delay: 0.7s;
+}
+
 .envelope.open .card-details {
-  transform: translate(145px, -85px) rotate(12deg) scale(0.95);
-  --hover-tx: 145px; --hover-ty: -85px; --hover-rot: 12deg;
+  transform: translate(85px, -170px) rotate(7deg) scale(0.95);
+  --hover-tx: 85px; --hover-ty: -170px; --hover-rot: 7deg;
   transition-delay: 0.65s;
 }
 
-.envelope.open .card-rsvp {
-  transform: translate(-140px, -170px) rotate(-10deg) scale(0.95);
-  --hover-tx: -140px; --hover-ty: -170px; --hover-rot: -10deg;
-  transition-delay: 0.8s;
+.envelope.open .card-share {
+  transform: translate(165px, -155px) rotate(15deg) scale(0.9);
+  --hover-tx: 165px; --hover-ty: -155px; --hover-rot: 15deg;
+  transition-delay: 0.75s;
+}
+
+.spin {
+  animation: spin 1s linear infinite !important;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* Instructions */
@@ -1874,17 +2097,25 @@ body {
    Mobile-Responsive Specific Overrides
    ========================================================================== */
 @media (max-width: 580px) {
-  .envelope.open .card-details {
-    transform: translate(65px, -85px) rotate(8deg) scale(0.85);
-    --hover-tx: 65px; --hover-ty: -85px; --hover-rot: 8deg;
+  .envelope.open .card-main {
+    transform: translate(0px, -150px) rotate(0deg) scale(0.85);
+    --hover-tx: 0px; --hover-ty: -150px; --hover-rot: 0deg;
   }
   .envelope.open .card-rsvp {
-    transform: translate(-65px, -155px) rotate(-8deg) scale(0.85);
-    --hover-tx: -65px; --hover-ty: -155px; --hover-rot: -8deg;
+    transform: translate(-45px, -140px) rotate(-6deg) scale(0.8);
+    --hover-tx: -45px; --hover-ty: -140px; --hover-rot: -6deg;
   }
-  .envelope.open .card-main {
-    transform: translate(-5px, -145px) rotate(0deg) scale(0.9);
-    --hover-tx: -5px; --hover-ty: -145px; --hover-rot: 0deg;
+  .envelope.open .card-upload {
+    transform: translate(-90px, -130px) rotate(-12deg) scale(0.75);
+    --hover-tx: -90px; --hover-ty: -130px; --hover-rot: -12deg;
+  }
+  .envelope.open .card-details {
+    transform: translate(45px, -140px) rotate(6deg) scale(0.8);
+    --hover-tx: 45px; --hover-ty: -140px; --hover-rot: 6deg;
+  }
+  .envelope.open .card-share {
+    transform: translate(90px, -130px) rotate(12deg) scale(0.75);
+    --hover-tx: 90px; --hover-ty: -130px; --hover-rot: 12deg;
   }
 }
 
@@ -1921,4 +2152,241 @@ body {
   .music-toggle-btn span {
     font-size: 1.25rem !important;
   }
+}
+
+/* ==========================================================================
+   6. Timeline & Photo Gallery Styles
+   ========================================================================== */
+
+/* Planning / Timeline section styles */
+.planning-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin: 1.5rem 0;
+}
+
+@media (min-width: 600px) {
+  .planning-container {
+    flex-direction: row;
+    align-items: stretch;
+  }
+  .planning-divider {
+    width: 1px;
+    background: linear-gradient(180deg, transparent, var(--gold-light), transparent);
+  }
+}
+
+.planning-night {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.25rem;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(198, 167, 123, 0.2);
+}
+
+.night-badge {
+  background-color: var(--charcoal);
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  text-transform: uppercase;
+  text-align: center;
+  white-space: nowrap;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.night-badge.gold-badge {
+  background-color: var(--gold-dark);
+}
+
+.night-details h3 {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--charcoal);
+  margin-bottom: 0.35rem;
+}
+
+.night-time, .night-loc {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  color: #555;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.25rem;
+}
+
+.night-time span, .night-loc span {
+  font-size: 0.95rem !important;
+  color: var(--gold-dark);
+}
+
+.planning-actions {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+/* Gallery Grid */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+}
+
+@media (min-width: 480px) {
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 1rem;
+  }
+}
+
+.gallery-item {
+  position: relative;
+  aspect-ratio: 4/5;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1.5px solid var(--gold-light);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.gallery-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(198, 167, 123, 0.25);
+}
+
+.gallery-item:hover img {
+  transform: scale(1.05);
+}
+
+/* Reverted photos layout grid cleanup */
+
+/* Floating Back to Envelope Button */
+.floating-back-btn-container {
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(20px);
+}
+
+.floating-back-btn-container.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.back-to-envelope-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(253, 250, 245, 0.85); /* Glassmorphism background */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(198, 167, 123, 0.3);
+  padding: 0.75rem 1.25rem;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  font-family: var(--font-title);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--gold-dark);
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+.back-to-envelope-btn:hover {
+  background: var(--white-card);
+  border-color: var(--gold);
+  color: var(--charcoal);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(198, 167, 123, 0.2);
+}
+
+.back-to-envelope-btn span {
+  font-size: 1.1rem;
+  transition: transform 0.3s ease;
+}
+
+.back-to-envelope-btn:hover span {
+  transform: translateY(-2px);
+}
+
+/* Envelope Scroll Down Arrow */
+.envelope-nav-arrow {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  z-index: 1001;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.envelope-nav-arrow.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+.nav-arrow-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--cream-bg);
+  font-family: var(--font-title);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  gap: 0.25rem;
+  opacity: 0.85;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.nav-arrow-btn:hover {
+  opacity: 1;
+  transform: translateY(2px);
+}
+
+.nav-arrow-btn span.material-symbols-outlined {
+  font-size: 2rem !important;
+  color: var(--gold);
+}
+
+/* Bouncing animation */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+.bounce {
+  animation: bounce 2s infinite;
 }

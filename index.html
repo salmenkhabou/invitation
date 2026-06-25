@@ -39,6 +39,14 @@
       <div class="scattered-envelope env-bottom-right">
         <span class="embossed-text">Invitation de Mariage</span>
       </div>
+      <div class="scattered-envelope env-top-right"></div>
+      <div class="scattered-envelope env-bottom-left">
+        <span class="embossed-text">Célébration</span>
+      </div>
+      <div class="scattered-envelope env-mid-left"></div>
+      <div class="scattered-envelope env-mid-right">
+        <span class="embossed-text">Pour Toujours</span>
+      </div>
       
       <!-- Wax Stamp Handle Decoration -->
       <div class="wax-stamp-handle"></div>
@@ -69,7 +77,20 @@
           <!-- Invitation Card Deck (Fanned Layout) -->
           <div class="envelope-card-deck">
             
-            <!-- 1. RSVP / Pase Card (Translucent paper style) -->
+            <!-- 1. Upload Card (Cream Theme) -->
+            <div id="deck-card-upload" class="deck-card card-upload">
+              <div class="deck-card-inner">
+                <span class="material-symbols-outlined card-icon">cloud_upload</span>
+                <h4 class="deck-card-title">Déposer vos Souvenirs</h4>
+                <div class="upload-drag-area" id="deck-upload-zone">
+                  <input type="file" id="deck-photo-input" accept="image/*" class="hidden" />
+                  <span class="material-symbols-outlined">add_a_photo</span>
+                  <p>Glissez-déposez ou cliquez</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. RSVP / Pase Card (Translucent paper style) -->
             <div id="deck-card-rsvp" class="deck-card card-rsvp">
               <div class="deck-card-inner">
                 <span class="material-symbols-outlined card-icon">how_to_reg</span>
@@ -78,20 +99,6 @@
                 <div class="deck-card-divider"></div>
                 <button id="deck-rsvp-btn" class="deck-card-btn btn-rsvp-action">
                   Confirmer
-                </button>
-              </div>
-            </div>
-
-            <!-- 2. Details / Dress Code Card (Olive-Green style) -->
-            <div id="deck-card-details" class="deck-card card-details">
-              <div class="deck-card-inner">
-                <span class="material-symbols-outlined card-icon">apparel</span>
-                <h4 class="deck-card-title">Tenue</h4>
-                <p class="deck-card-accent">FORMELLE</p>
-                <div class="deck-card-divider"></div>
-                <p class="deck-card-text">Réception à 19h00<br>Hôtel Aurora, Sfax</p>
-                <button id="deck-map-btn" class="deck-card-btn btn-map-action">
-                  Localisation
                 </button>
               </div>
             </div>
@@ -111,12 +118,46 @@
               </div>
             </div>
 
+            <!-- 4. Details / Dress Code Card (Olive-Green style) -->
+            <div id="deck-card-details" class="deck-card card-details">
+              <div class="deck-card-inner">
+                <span class="material-symbols-outlined card-icon">apparel</span>
+                <h4 class="deck-card-title">Tenue</h4>
+                <p class="deck-card-accent">FORMELLE</p>
+                <div class="deck-card-divider"></div>
+                <p class="deck-card-text">Réception à 19h00<br>Hôtel Aurora, Sfax</p>
+                <button id="deck-map-btn" class="deck-card-btn btn-map-action">
+                  Localisation
+                </button>
+              </div>
+            </div>
+
+            <!-- 5. Share Card (Dark Green style) -->
+            <div id="deck-card-share" class="deck-card card-share">
+              <div class="deck-card-inner">
+                <h4 class="deck-card-title">Partager l'Invitation</h4>
+                <div class="qr-container">
+                  <img src="qr_code.png" alt="QR Code" class="qr-img" />
+                </div>
+                <p class="deck-card-text">Scannez ou copiez le lien</p>
+                <button id="deck-share-btn" class="btn-share-action">Copier le Lien</button>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
       
       <div class="envelope-instruction">
         Cliquez sur le sceau pour ouvrir l'invitation
+      </div>
+
+      <!-- Navigation Arrow to Switch Page -->
+      <div id="envelope-nav-arrow" class="envelope-nav-arrow">
+        <button id="scroll-to-details-btn" class="nav-arrow-btn" aria-label="Voir les détails du mariage">
+          <span class="nav-arrow-text">Découvrir le site</span>
+          <span class="material-symbols-outlined bounce">expand_more</span>
+        </button>
       </div>
     </div>
   </div>
@@ -172,100 +213,74 @@
         </p>
       </section>
 
-      <!-- Card: Interactive Grid Envelope (Save the Date) -->
-      <section class="card-premium card-light card-envelope-interactive reveal-card">
-        <span class="material-symbols-outlined section-icon">drafts</span>
-        <h2 class="section-title">Save the Date</h2>
-        <p class="section-subtitle">CLIQUEZ SUR LE SCEAU</p>
+
+
+      <!-- Card 3: Wedding Program / Programme du Mariage (Replacing Ceremony & Reception) -->
+      <section class="card-premium card-light reveal-card col-span-2">
+        <span class="material-symbols-outlined section-icon">schedule</span>
+        <h2 class="section-title">Programme du Mariage</h2>
+        <p class="section-subtitle">LES DEUX GRANDES SOIRÉES</p>
         
-        <div id="grid-envelope" class="grid-envelope">
-          <!-- Lining -->
-          <div class="grid-envelope-inner"></div>
+        <div class="planning-container">
+          <!-- Night 1: Le Nzoul -->
+          <div class="planning-night">
+            <div class="night-badge">9 Juillet</div>
+            <div class="night-details">
+              <h3>Le Nzoul (Tradition)</h3>
+              <p class="night-time">
+                <span class="material-symbols-outlined">schedule</span> à 19h00
+              </p>
+              <p class="night-loc">
+                <span class="material-symbols-outlined">location_on</span> Mo2tamart gremda, Sfax
+              </p>
+            </div>
+          </div>
           
-          <!-- Flaps -->
-          <div class="grid-envelope-left"></div>
-          <div class="grid-envelope-right"></div>
-          <div class="grid-envelope-bottom"></div>
-          <div class="grid-envelope-top-flap"></div>
+          <div class="planning-divider"></div>
           
-          <!-- Wax Seal -->
-          <button id="grid-wax-seal-btn" class="grid-wax-seal" type="button" aria-label="Ouvrir le Save the Date">
-            <img src="logo.jpg" alt="Sceau RM" class="grid-wax-seal-img"/>
-          </button>
-          
-          <!-- Slide Out Card -->
-          <div class="grid-envelope-card">
-            <div class="grid-card-inner">
-              <div class="grid-card-photo" style="background-image: url('couple.jpg');"></div>
-              <div class="grid-card-details">
-                <p class="grid-card-tag">SAVE THE DATE</p>
-                <h4 class="grid-card-names">Rihem & Mohamed</h4>
-                <p class="grid-card-date">11.07</p>
-              </div>
+          <!-- Night 2: Le Mariage -->
+          <div class="planning-night">
+            <div class="night-badge gold-badge">11 Juillet</div>
+            <div class="night-details">
+              <h3>Le Mariage</h3>
+              <p class="night-time">
+                <span class="material-symbols-outlined">schedule</span> à 19h00
+              </p>
+              <p class="night-loc">
+                <span class="material-symbols-outlined">location_on</span> Hôtel Aurora, Sfax
+              </p>
             </div>
           </div>
         </div>
-      </section>
-
-      <!-- Card 2: Date & Ceremony details -->
-      <section class="card-premium card-light reveal-card">
-        <span class="material-symbols-outlined section-icon">schedule</span>
-        <h2 class="section-title">Cérémonie & Réception</h2>
-        <p class="section-subtitle">OÙ & QUAND</p>
-        <div class="details-body">
-          <p class="detail-highlight">Samedi 11 Juillet</p>
-          <p class="detail-sub">à 19h00</p>
-          <p class="detail-desc">Hôtel Aurora Sfax, Tunisie</p>
-        </div>
-        <button id="open-map-btn" class="btn-luxury btn-gold-outline">
-          <span class="material-symbols-outlined">map</span> Voir l'Emplacement
-        </button>
-      </section>
-
-      <!-- Card 5: Gift Registry / Bank Details -->
-      <section class="card-premium card-light reveal-card">
-        <span class="material-symbols-outlined section-icon">redeem</span>
-        <h2 class="section-title">Liste de Mariage / RIB</h2>
-        <p class="section-subtitle">PARTICIPATION</p>
-        <p class="gift-text">
-          Votre présence est notre plus grand cadeau. Pour ceux qui souhaitent nous accompagner dans notre projet de vie, voici nos coordonnées bancaires :
-        </p>
-        <div class="bank-details-box">
-          <p class="bank-label">RIB Bancaire (Tunisie)</p>
-          <p id="rib-code" class="bank-code">TN59 1234 5678 9012 3456 7890</p>
-          <button id="copy-rib-btn" class="btn-copy">
-            <span class="material-symbols-outlined">content_copy</span>
-            <span id="copy-btn-text">Copier le RIB</span>
+        
+        <div class="planning-actions">
+          <button id="open-map-btn" class="btn-luxury btn-gold-outline">
+            <span class="material-symbols-outlined">map</span> Voir l'Emplacement
           </button>
         </div>
       </section>
 
-      <!-- Card 6: Playlist & Song Suggestion -->
-      <section class="card-premium card-light reveal-card">
-        <span class="material-symbols-outlined section-icon">music_note</span>
-        <h2 class="section-title">Play-list Participative</h2>
-        <p class="section-subtitle">SUGGÉRER UNE CHANSON</p>
-        <p class="song-intro">
-          Aidez-nous à faire danser tout le monde en nous proposant vos morceaux favoris :
-        </p>
-        <form id="song-form" class="luxury-form">
-          <div class="form-group">
-            <label for="song-guest-name">Votre Nom</label>
-            <input type="text" id="song-guest-name" placeholder="Ex: Salmen Khabou" required />
+
+
+      <!-- Card 8: Galerie & Partage de Photos (col-span-2) -->
+      <section class="card-premium card-light reveal-card col-span-2">
+        <span class="material-symbols-outlined section-icon">photo_library</span>
+        <h2 class="section-title">Photos & Souvenirs</h2>
+        <p class="section-subtitle">PARTAGEZ VOS PLUS BEAUX MOMENTS</p>
+        
+        <!-- Grid for couple's photos and dynamic guest photos -->
+        <div id="gallery-grid" class="gallery-grid">
+          <!-- Couple's Photos (Statically loaded) -->
+          <div class="gallery-item" id="couple-photo-1">
+            <img src="couple1.jpg" alt="Photo de couple 1" />
           </div>
-          <div class="form-group">
-            <label for="song-title">Titre de la Chanson</label>
-            <input type="text" id="song-title" placeholder="Ex: Ya Rayah" required />
+          <div class="gallery-item" id="couple-photo-2">
+            <img src="couple2.jpg" alt="Photo de couple 2" />
           </div>
-          <div class="form-group">
-            <label for="song-artist">Artiste (facultatif)</label>
-            <input type="text" id="song-artist" placeholder="Ex: Dahmane El Harrachi" />
+          <div class="gallery-item" id="couple-photo-3">
+            <img src="couple.jpg" alt="Photo de couple 3" />
           </div>
-          <button type="submit" id="song-submit-btn" class="btn-luxury btn-gold w-full">
-            <span class="material-symbols-outlined">playlist_add</span> Suggérer
-          </button>
-        </form>
-        <div id="song-response" class="form-response success hidden"></div>
+        </div>
       </section>
 
 
@@ -297,20 +312,7 @@
         </div>
       </section>
 
-      <!-- Card 7: Main RSVP Submission (Dark Premium, Full Width) -->
-      <section id="rsvp-section" class="card-premium card-dark reveal-card col-span-2">
-        <span class="material-symbols-outlined section-icon text-gold">celebration</span>
-        <h2 class="section-title text-gold">Confirmation de Présence</h2>
-        <p class="section-subtitle text-gold-light">CONFIRMATION DE L'ASSISTANCE</p>
-        <p class="rsvp-intro text-gray-300">
-          Pour nous aider à organiser au mieux cette journée magique, nous vous prions de bien vouloir confirmer votre présence avant le <strong>15 Juin</strong>.
-        </p>
-        <div class="rsvp-action-container">
-          <button id="open-rsvp-btn" class="btn-luxury btn-gold btn-large">
-            <span class="material-symbols-outlined">how_to_reg</span> Confirmer Votre Présence
-          </button>
-        </div>
-      </section>
+
 
     </div>
 
@@ -455,6 +457,14 @@
       </div>
       
     </div>
+  </div>
+
+  <!-- Floating Back to Envelope Button -->
+  <div id="floating-back-btn-container" class="floating-back-btn-container">
+    <button id="back-to-envelope-btn" class="back-to-envelope-btn" aria-label="Retour à l'enveloppe">
+      <span class="material-symbols-outlined">arrow_upward</span>
+      <span class="btn-text">Retour</span>
+    </button>
   </div>
 
   <script src="app.js"></script>
