@@ -900,6 +900,52 @@ body {
   transition-delay: 0.75s;
 }
 
+/* Card Zoom focused state for mobile & desktop legibility */
+.envelope.open .deck-card.active-zoom {
+  transform: translate(-50%, -50%) scale(1.35) !important;
+  left: 50% !important;
+  top: 40% !important;
+  bottom: auto !important;
+  right: auto !important;
+  box-shadow: 0 25px 60px rgba(44, 40, 36, 0.4);
+  z-index: 9999 !important;
+  cursor: default;
+  /* Reset hover variables */
+  --hover-tx: -50%; --hover-ty: -50%; --hover-rot: 0deg;
+}
+
+@media (max-width: 580px) {
+  .envelope.open .deck-card.active-zoom {
+    transform: translate(-50%, -50%) scale(1.65) !important;
+    left: 50% !important;
+    top: 35% !important;
+  }
+}
+
+/* Translucent backdrop overlay that blurs the background when a card is zoomed */
+.envelope-card-deck::after {
+  content: '';
+  position: fixed;
+  top: -500px;
+  left: -500px;
+  right: -500px;
+  bottom: -500px;
+  background: rgba(44, 40, 36, 0.35);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+  z-index: 95; /* Behind zoomed card, in front of fanned cards */
+  pointer-events: none;
+}
+
+.envelope-card-deck.has-zoomed-card::after {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto; /* Active when zoomed */
+}
+
 .spin {
   animation: spin 1s linear infinite !important;
 }

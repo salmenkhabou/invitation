@@ -870,4 +870,47 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
   }
+
+  // 12. Zoom Card functionality for mobile/desktop legibility
+  const cardDeck = document.querySelector('.envelope-card-deck');
+  const cards = document.querySelectorAll('.deck-card');
+
+  if (cardDeck && cards.length > 0) {
+    cards.forEach(card => {
+      card.addEventListener('click', (e) => {
+        // Only trigger if envelope is open
+        if (!envelope.classList.contains('open')) return;
+
+        // If clicked on an interactive button, input, or drag-zone, don't toggle zoom
+        if (e.target.closest('.deck-card-btn') || 
+            e.target.closest('.btn-share-action') || 
+            e.target.closest('#deck-photo-input') || 
+            e.target.closest('#deck-upload-zone')) {
+          return;
+        }
+
+        e.stopPropagation();
+
+        const isZoomed = card.classList.contains('active-zoom');
+
+        // Reset other zoomed cards
+        cards.forEach(c => c.classList.remove('active-zoom'));
+
+        if (!isZoomed) {
+          card.classList.add('active-zoom');
+          cardDeck.classList.add('has-zoomed-card');
+        } else {
+          cardDeck.classList.remove('has-zoomed-card');
+        }
+      });
+    });
+
+    // Close zoom when clicking the backdrop overlay
+    cardDeck.addEventListener('click', (e) => {
+      if (e.target === cardDeck) {
+        cards.forEach(c => c.classList.remove('active-zoom'));
+        cardDeck.classList.remove('has-zoomed-card');
+      }
+    });
+  }
 });
