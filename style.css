@@ -968,22 +968,22 @@ body {
   z-index: 50;
 }
 
-/* Responsive scaling for the entire desk layout to fit perfectly on mobile */
+/* Responsive scaling for the entire desk layout - optimized so envelope and items are bigger on mobile */
 @media (max-width: 580px) {
   .desk-container {
-    transform: scale(0.85);
+    transform: scale(0.98);
   }
 }
 
 @media (max-width: 480px) {
   .desk-container {
-    transform: scale(0.72);
+    transform: scale(0.92);
   }
 }
 
 @media (max-width: 375px) {
   .desk-container {
-    transform: scale(0.64);
+    transform: scale(0.85);
   }
 }
 
@@ -2301,33 +2301,47 @@ body {
 
 /* Planning / Timeline section styles */
 .planning-container {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 1.25rem;
   margin: 1.5rem 0;
 }
 
 @media (min-width: 600px) {
   .planning-container {
-    flex-direction: row;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
     align-items: stretch;
   }
   .planning-divider {
-    width: 1px;
-    background: linear-gradient(180deg, transparent, var(--gold-light), transparent);
+    display: none;
   }
 }
 
 .planning-night {
-  flex: 1;
   display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  padding: 1.25rem;
-  border-radius: 12px;
-  background-color: rgba(250, 248, 245, 0.8);
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: 1.35rem 1.2rem;
+  border-radius: 14px;
+  background-color: rgba(250, 248, 245, 0.95);
   border: 1px solid rgba(198, 167, 123, 0.35);
-  box-shadow: 0 4px 15px rgba(44, 40, 36, 0.03);
+  box-shadow: 0 4px 20px rgba(44, 40, 36, 0.04);
+  box-sizing: border-box;
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.planning-night.gold-night {
+  border-color: rgba(198, 167, 123, 0.5);
+  background: linear-gradient(180deg, #FAF8F5 0%, rgba(245, 240, 232, 0.85) 100%);
+}
+
+.night-header {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
 }
 
 .night-badge {
@@ -2336,40 +2350,151 @@ body {
   font-family: var(--font-sans);
   font-size: 0.65rem;
   font-weight: 700;
-  letter-spacing: 0.05em;
-  padding: 0.5rem 0.75rem;
-  border-radius: 8px;
+  letter-spacing: 0.08em;
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
   text-transform: uppercase;
-  text-align: center;
   white-space: nowrap;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.06);
 }
 
 .night-badge.gold-badge {
   background-color: var(--gold-dark);
 }
 
-.night-details h3 {
+.night-title {
   font-family: var(--font-serif);
-  font-size: 1.05rem;
+  font-size: 1.15rem;
   font-weight: 600;
   color: var(--charcoal);
-  margin-bottom: 0.35rem;
+  margin: 0;
+}
+
+.night-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
 }
 
 .night-time, .night-loc {
   font-family: var(--font-sans);
-  font-size: 0.72rem;
-  color: #555;
+  font-size: 0.76rem;
+  color: #444;
   display: flex;
-  align-items: center;
-  gap: 0.35rem;
-  margin-top: 0.25rem;
+  align-items: flex-start;
+  gap: 0.4rem;
+  line-height: 1.4;
+  margin: 0;
 }
 
 .night-time span, .night-loc span {
+  font-size: 1rem !important;
+  color: var(--gold-dark);
+  margin-top: 1px;
+  flex-shrink: 0;
+}
+
+/* Mariage Night Special Program Schedule */
+.mariage-program {
+  margin-top: auto;
+  padding-top: 0.85rem;
+  border-top: 1px dashed rgba(198, 167, 123, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.program-slot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  background: rgba(198, 167, 123, 0.12);
+  border: 1px solid rgba(198, 167, 123, 0.3);
+  padding: 0.45rem 0.8rem;
+  border-radius: 20px;
+  box-sizing: border-box;
+}
+
+.slot-left {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.program-slot .slot-icon {
   font-size: 0.95rem !important;
   color: var(--gold-dark);
+}
+
+.program-slot .slot-time {
+  font-weight: 700;
+  color: var(--charcoal);
+  white-space: nowrap;
+}
+
+.program-slot .slot-artist {
+  font-weight: 600;
+  color: var(--gold-dark);
+  white-space: nowrap;
+}
+
+/* Map Modal Venues Grid */
+.map-modal-wide {
+  max-width: 650px !important;
+  width: 92% !important;
+}
+
+.map-venues-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.map-venue-card {
+  background: rgba(250, 248, 245, 0.9);
+  border: 1px solid rgba(198, 167, 123, 0.35);
+  border-radius: 10px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.venue-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.venue-card-header h4 {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  color: var(--charcoal);
+  font-weight: 600;
+}
+
+.venue-address {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: #555;
+  line-height: 1.4;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.35rem;
+}
+
+.venue-address span {
+  font-size: 1rem !important;
+  color: var(--gold-dark);
+  margin-top: 1px;
 }
 
 .planning-actions {
@@ -2383,6 +2508,21 @@ body {
   grid-template-columns: repeat(2, 1fr);
   gap: 0.75rem;
   margin: 1.5rem 0;
+}
+
+.gallery-grid.single-photo-grid {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+
+.featured-photo {
+  max-width: 380px;
+  width: 100%;
+  aspect-ratio: 3/4;
+  border-radius: 16px !important;
+  border: 2px solid var(--gold-light) !important;
+  box-shadow: 0 10px 30px rgba(44, 40, 36, 0.12) !important;
 }
 
 @media (min-width: 480px) {

@@ -274,23 +274,62 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================================================
-  // 4. Background Music Loop Controller
+  // 4. Background Music Loop Controller (Clean Bandit - Symphony feat. Zara Larsson)
   // ==========================================================================
+  let ytPlayer = null;
+  window.onYouTubeIframeAPIReady = function() {
+    ytPlayer = new YT.Player('youtube-player', {
+      height: '1',
+      width: '1',
+      videoId: 'aatr_2MstrI', // Clean Bandit - Symphony (feat. Zara Larsson) [Official Video]
+      playerVars: {
+        'autoplay': 0,
+        'controls': 0,
+        'loop': 1,
+        'playlist': 'aatr_2MstrI'
+      },
+      events: {
+        'onStateChange': function(event) {
+          if (event.data === YT.PlayerState.PLAYING) {
+            isPlaying = true;
+            musicIcon.textContent = 'pause';
+            musicToggle.classList.add('audio-playing');
+          } else if (event.data === YT.PlayerState.PAUSED || event.data === YT.PlayerState.ENDED) {
+            isPlaying = false;
+            musicIcon.textContent = 'music_note';
+            musicToggle.classList.remove('audio-playing');
+          }
+        }
+      }
+    });
+  };
+
   function playMusic() {
-    bgMusic.play()
-      .then(() => {
-        isPlaying = true;
-        musicIcon.textContent = 'pause';
-        musicToggle.classList.add('audio-playing');
-      })
-      .catch(err => {
-        console.log("Autoplay music blocked: ", err);
-      });
+    if (ytPlayer && typeof ytPlayer.playVideo === 'function') {
+      ytPlayer.playVideo();
+      isPlaying = true;
+      musicIcon.textContent = 'pause';
+      musicToggle.classList.add('audio-playing');
+    } else if (bgMusic) {
+      bgMusic.play()
+        .then(() => {
+          isPlaying = true;
+          musicIcon.textContent = 'pause';
+          musicToggle.classList.add('audio-playing');
+        })
+        .catch(err => {
+          console.log("Autoplay music blocked: ", err);
+        });
+    }
   }
   
   function toggleMusic() {
     if (isPlaying) {
-      bgMusic.pause();
+      if (ytPlayer && typeof ytPlayer.pauseVideo === 'function') {
+        ytPlayer.pauseVideo();
+      } else if (bgMusic) {
+        bgMusic.pause();
+      }
       isPlaying = false;
       musicIcon.textContent = 'music_note';
       musicToggle.classList.remove('audio-playing');

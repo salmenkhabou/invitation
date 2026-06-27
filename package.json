@@ -1,7 +1,7 @@
 {
   "name": "digital_invitation2.0",
   "version": "1.0.0",
-  "description": "Wedding Invitation Website for Rihem & Mohamed",
+  "description": "Wedding Invitation Website for Mohamed & Rihem",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
